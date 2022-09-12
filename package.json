@@ -1,0 +1,27 @@
+{
+  "name": "mshooter",
+  "version": "1.0.0",
+  "description": "Serviço de gestão de acervo de armas, munições, recarga, e resultados de treinos e competições de atiradores esportivos.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pce",
+    "acervo",
+    "recarga",
+    "munição",
+    "competição",
+    "atirador",
+    "esporte"
+  ],
+  "author": "Marcus Martinho",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mysql2": "^2.3.3",
+    "path": "^0.12.7",
+    "sequelize": "^6.21.6",
+    "sequelize-cli": "^6.4.1"
+  }
+}
