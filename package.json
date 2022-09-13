@@ -4,7 +4,8 @@
   "description": "Serviço de gestão de acervo de armas, munições, recarga, e resultados de treinos e competições de atiradores esportivos.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "keywords": [
     "pce",
@@ -23,5 +24,8 @@
     "path": "^0.12.7",
     "sequelize": "^6.21.6",
     "sequelize-cli": "^6.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
   }
 }
