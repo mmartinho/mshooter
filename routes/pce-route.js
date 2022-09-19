@@ -3,23 +3,15 @@ const PCEController = require('../controllers/pce-controller');
 
 const router = Router();
 
-/** 
- * All PCE routes 
- */
-
-/** List all PCEs */
-router.get('/pce', PCEController.PCEs);
-/** Get a single PCE */
-router.get('/pce/:id', PCEController.PCE);
-/** Create a single PCE object */
-router.post('/pce', PCEController.criaPCE);
-/** Update a single PCE object */
-router.put('/pce/:id', PCEController.atualizaPCE);
-/** Delete a single PCE object */
-router.delete('/pce/:id', PCEController.apagaPCE);
-//router.get('/pessoas/:estudanteId/matriculas/:matriculaId', PessoaController.pegaUmaMatricula);
-//router.post('/pessoas/:estudanteId/matriculas', PessoaController.criaMatricula);
-//router.put('/pessoas/:estudanteId/matriculas/:matriculaId', PessoaController.atualizaMatricula);
-//router.delete('/pessoas/:estudanteId/matriculas/:matriculaId', PessoaController.apagaMatricula);
+/** List all objects */
+router.get('/pce', PCEController.listAll);
+/** Get a single */
+router.get('/pce/:id', PCEController.singleObject);
+/** Create a single object */
+router.post('/pce', PCEController.createObject);
+/** Update a single object */
+router.put('/pce/:id', PCEController.updateObject);
+/** Delete a single object */
+router.delete('/pce/:id', PCEController.deleteObject);
 
 module.exports = router;

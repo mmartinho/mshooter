@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('pce', {
+    await queryInterface.createTable('local', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,33 +11,15 @@ module.exports = {
       nome: {
         type: Sequelize.STRING
       },
+      endereco: {
+        type: Sequelize.TEXT
+      },
       tipo: {
         type: Sequelize.TINYINT(1)
       },
-      alias: {
-        type: Sequelize.STRING
-      },
-      sigma: {
+      cnpj: {
         type: Sequelize.STRING(20)
-      },
-      nserie: {
-        type: Sequelize.STRING(20)
-      },
-      descricao: {
-        type: Sequelize.TEXT
-      },
-      marca: {
-        type: Sequelize.STRING
-      },
-      modelo: {
-        type: Sequelize.STRING
       },      
-      calibre: {
-        type: Sequelize.STRING(20)
-      },
-      dt_fabricacao: {
-        type: Sequelize.DATEONLY
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -49,6 +31,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('pce');
+    await queryInterface.dropTable('local');
   }
 };

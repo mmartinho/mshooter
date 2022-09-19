@@ -2,18 +2,18 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class PCE extends Model {
+  class Pce extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Pce.hasMany(models.Compra, { foreignKey: 'pce_id'});
     }
   };
 
-  PCE.init(
+  Pce.init(
     {
       nome: DataTypes.STRING,
       tipo: DataTypes.INTEGER,
@@ -28,10 +28,10 @@ module.exports = (sequelize, DataTypes) => {
     }, 
     {
       sequelize,
-      modelName: 'PCE',
+      modelName: 'Pce',
       tableName: 'pce'
     }
   );
 
-  return PCE;
+  return Pce;
 };

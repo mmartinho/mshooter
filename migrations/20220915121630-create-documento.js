@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('pce', {
+    await queryInterface.createTable('documento', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,32 +11,20 @@ module.exports = {
       nome: {
         type: Sequelize.STRING
       },
-      tipo: {
-        type: Sequelize.TINYINT(1)
-      },
-      alias: {
-        type: Sequelize.STRING
-      },
-      sigma: {
-        type: Sequelize.STRING(20)
-      },
-      nserie: {
-        type: Sequelize.STRING(20)
-      },
       descricao: {
         type: Sequelize.TEXT
       },
-      marca: {
+      numero: {
         type: Sequelize.STRING
       },
-      modelo: {
-        type: Sequelize.STRING
-      },      
-      calibre: {
-        type: Sequelize.STRING(20)
-      },
-      dt_fabricacao: {
+      dt_expedicao: {
         type: Sequelize.DATEONLY
+      },
+      dt_validade: {
+        type: Sequelize.DATEONLY
+      },
+      arquivo: {
+        type: Sequelize.STRING.BINARY
       },
       createdAt: {
         allowNull: false,
@@ -49,6 +37,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('pce');
+    await queryInterface.dropTable('documento');
   }
 };
