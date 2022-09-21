@@ -2,7 +2,7 @@ const express=require('express');
 const routes=require('./routes');
 
 const app = express();
-const port = 3000;
+const port = process.env.NODE_ENV == 'development' ? process.env.DEV_API_PORT : process.env.PROD_API_PORT;
 
 routes(app);
 

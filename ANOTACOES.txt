@@ -1,0 +1,28 @@
+*******************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+*******************************
+
+12/09/2022 a 21/09/2022
+
+1. CRUD de controlador de PCE, Local e Esportista usando classe base, para não ter que repetir o mesmo código fonte
+2. Seeder de PCE e Local com dados reais
+3. As seguintes relações bi-direcionais foram declaradas:
+   - PCE/Compra
+   - Compra/Documento
+   - Documento/Autorizacao
+   - Registro/Esportista
+   - Frequencia/Esportista
+   - Local/Frequencia
+
+4. Instalamos os packs:
+    >npm install jsonwebtoken dotenv bcryptjs 
+
+5. Configuramos a aplicação para aceitar variáveis ".env"
+
+6. Estamos seguindo os passos de 
+   https://www.section.io/engineering-education/how-to-build-authentication-api-with-jwt-token-in-nodejs/
+   para desenvolvermos a API de autenticação do mShooter backend
+
