@@ -30,7 +30,7 @@ class CRUDController {
             const all = await db[model].findAll();
             return res.status(200).json(all);
         } catch (error) {
-            return res.status(500).json(error); 
+            return res.status(500).json({ message: error.message }); 
         }
     }
 
@@ -50,7 +50,7 @@ class CRUDController {
             });
             return res.status(200).json(one);
         } catch (error) {
-            return res.status(500).json(error); 
+            return res.status(500).json({ message: error.message }); 
         }
     }    
 
@@ -68,7 +68,7 @@ class CRUDController {
             const one = await db[model].create(data);
             return res.status(200).json(one);
         } catch (error) {
-            return res.status(500).json(error);
+            return res.status(500).json({ message: error.message });
         }
     }    
 
@@ -98,7 +98,7 @@ class CRUDController {
             });            
             return res.status(200).json(updatedOne);
         } catch (error) {
-            return res.status(500).json(error);
+            return res.status(500).json({ message: error.message });
         }        
     }    
 
