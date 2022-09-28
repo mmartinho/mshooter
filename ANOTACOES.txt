@@ -38,4 +38,9 @@ Data: Ago/2022
    a. Rota / controlador para "registro" de novo usuário e "login"
       @see routes\usuario-route.js
       @see controllers\usuario-controller.js
+
+   b. Criamos um middleware de autenticação com sua respectiva rota:
+      @see middleware\auth.js
+
+
     

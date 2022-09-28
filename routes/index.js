@@ -3,6 +3,7 @@ const pce = require('./pce-route');
 const local = require('./local-route');
 const esportista = require('./esportista-route');
 const usuario = require('./usuario-route');
+const welcome = require('./welcome-route');
 
 module.exports = (app) => {
     app.use(express.json());
@@ -10,4 +11,5 @@ module.exports = (app) => {
     app.use(local);
     app.use(esportista);
     app.use(usuario);
+    app.use(welcome);
 }
