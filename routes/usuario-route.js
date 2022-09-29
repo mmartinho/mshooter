@@ -7,5 +7,7 @@ const router = Router();
 router.post('/usuario/registrar', UsuarioController.registrar);
 /** Login an existing User */
 router.post('/usuario/login', UsuarioController.login);
+/** Destroy the User access token */
+router.post('/usuario/logout', UsuarioController.logout);
 
 module.exports = router;

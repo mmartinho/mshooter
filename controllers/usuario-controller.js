@@ -1,6 +1,7 @@
 const db = require('../models');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const tokens = require('../middleware/tokens');
 
 /**
  * @param Number id 
@@ -114,13 +115,25 @@ class UsuarioController {
             }
             const user = await procuraUsuario(email);
             if(user && (await bcrypt.compare(senha, user.senha))) {
-                const userWithNewToken = await novoTokenUsuario(user.id, email);
-                return res.status(200).json(userWithNewToken);
+                const accessToken = tokens.access.cria(user.id);
+                const refreshToken = await tokens.refresh.cria();
+                res.set('Authorization', accessToken);
+                return res.status(200).json({ refreshToken });
             } else {
                 return res.status(400).json({message: 'Credenciais inválidas'});
             }
         } catch (error) {
            return res.status(500).json( { message: error.message }); 
+        }
+    }
+
+    static async logout(req, res) {
+        try {
+           const { token } = req.body;
+           await tokens.access.invalida(token);
+           res.status(200).json({ message: 'Usuário deslogado com sucesso' }); 
+        } catch (error) {
+            return res.status(500).json( { message: error.message }); 
         }
     }
 }
