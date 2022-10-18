@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.STRING,
       primaryKey: true
     },
+    user_id: DataTypes.INTEGER,
     expiracao: DataTypes.STRING
   }, {
     sequelize,

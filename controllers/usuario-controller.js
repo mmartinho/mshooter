@@ -1,85 +1,27 @@
-const db = require('../models');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const tokens = require('../middleware/tokens');
+const Usuario = require('../models/funcoes/usuario');
+const EmailVerificacao = require('../models/classes/emails');
 
-/**
- * @param Number id 
- * @param string email 
- * @returns Usuario
- */
-async function novoTokenUsuario(id, email) {
-    const token = jwt.sign({ user_id: id, email}, process.env.TOKEN_KEY, { expiresIn : '2h'});
-    const updatedUser = await atualizarUsuario({ token }, id);
-    return updatedUser;
+function geraEndereco(rota, token) {
+    const baseUrl = `${process.env.API_HOST}:${process.env.API_PORT}`;
+    return `${baseUrl}${rota}${token}`;
 }
 
-/**
- * @param {*} novosDados 
- * @param integer id 
- * @returns Usuario
- * @throws Error
- */
-async function atualizarUsuario(novosDados, id) {
-    var affected = [];
-    await db.Usuario.update(novosDados, { where: { id } })
-        .then(result => { 
-            affected = result; 
-        })
-        .catch(error => {
-            throw new Error(`Não foi possível atualizar usuário id ${id}. ${error.message}`);
-        });  
-    if(affected[0] == 1) {
-        const userUpdated = await db.Usuario.findOne({ where: { id } });   
-        return userUpdated;
-    } else {
-        throw new Error(`Usuário de id ${id} não foi encontrado`);
-    }
+function tokenVerificacaoEmail(id) {
+    const token = tokens.verificacaoEmail.cria(id);
+    return token;
 }
 
-/**
- * @param string email 
- * @returns Usuario | null
- */
-async function procuraUsuario(email) {
-    const user = await db.Usuario.findOne({ where: { email } });
-    return user;    
+async function enviaEmailVerificacao(user) {
+    const token = tokenVerificacaoEmail(user.id);
+    const endereco = geraEndereco('/usuario/verifica/', token);
+    const emailVerificacao = new EmailVerificacao(user, endereco);
+    await emailVerificacao.enviaEmail();
 }
 
-/**
- * @param string email 
- * @returns boolean
- */
-async function existeUsuario(email) {
-    const existe = await procuraUsuario(email);
-    if(existe) {
-        return true;
-    } else {
-        return false;
-    }   
-}
-
-/**
- * @param string nome 
- * @param string email 
- * @param string senha 
- * @returns Usuario
- */
-async function criarUsuario(nome, email, senha) {
-    const encryptedPass = await bcrypt.hash(senha, 10);
-    const newUser = await db.Usuario.create({ nome, email: email.toLowerCase(), senha: encryptedPass});   
-    const userWithNewToken = novoTokenUsuario(newUser.id, email);   
-    return userWithNewToken;  
-}
-
-/**
- * Esportista handling
- */
 class UsuarioController {
 
     /**
-     * New User registration
-     * 
      * @param {*} req 
      * @param {*} res 
      * @returns 
@@ -90,52 +32,120 @@ class UsuarioController {
             if(!(nome && email && senha)) {
                 return res.status(400).json({message: 'Nome, e-mail e senha são campos requeridos' });
             }
-            if(await existeUsuario(email)) {
+            if(await Usuario.existe(email)) {
                 return res.status(409).json({message: 'Usuário já existe. Faça o login'});
             }
-            const userCreated = await criarUsuario(nome, email, senha);          
-            return res.status(201).json(userCreated);
+            const userCreated = await Usuario.criar(nome, email, senha); 
+            await enviaEmailVerificacao(userCreated);
+            return res.status(201).json({ id: userCreated.id, nome: userCreated.nome, email: userCreated.email});
         } catch (error) {
-            return res.status(500).json( { message: error.message });
+            return res.status(500).json( {message: error.message});
         }
-    }  
+    } 
     
     /**
-     * Existing User login
-     * 
+     * @param {*} req 
+     * @param {*} res 
+     */
+     static async verifica(req, res) {
+        try {
+          const usuario = req.user; // vem do middleware
+          await Usuario.verifica(usuario.id);
+          res.status(200).json({message: 'Email verificado com sucesso'});
+        } catch (error) {
+          res.status(500).json({message: error.message});
+        }
+    }     
+
+    /**
+     * @param {*} req 
+     * @param {*} res 
+     * @returns 
+     */
+    static async criar(req, res) {
+        try {
+            const { nome, email, senha } = req.body;
+            if(!(nome && email && senha)) {
+                return res.status(400).json({message: 'Nome, e-mail e senha são campos requeridos' });
+            }
+            if(await Usuario.existe(email)) {
+                return res.status(409).json({message: 'Usuário já existe. Faça o login'});
+            }
+            const userCreated = await Usuario.criar(nome, email, senha); 
+            const userVerified = await Usuario.verifica(userCreated.id);         
+            return res.status(201).json({ id: userVerified.id, nome: userVerified.nome, email: userVerified.email, verificado: userVerified.verificado});
+        } catch (error) {
+            return res.status(500).json( {message: error.message});
+        }
+    }      
+
+    /**
+     * @param {*} req 
+     * @param {*} res 
+     * @returns 
+     */
+     static async atualizar(req, res) {
+        try {
+            const { id } = req.params;
+            const novosDados = req.body
+            const userUpdated = await Usuario.atualizar(novosDados, id);          
+            return res.status(200).json({ id: userUpdated.id, nome: userUpdated.nome, email: userUpdated.email});
+        } catch (error) {
+            if(error instanceof Error && error.name === 'NaoEncontrado') {
+                return res.status(404).json({message : error.message});
+            }
+            return res.status(500).json({message: error.message});
+        }
+    }     
+
+    /**
+     * @param {*} req 
+     * @param {*} res 
+     * @returns 
+     */
+     static async excluir(req, res) {
+        try {
+            const { id } = req.params;
+            await Usuario.excluir(id);          
+            return res.status(200).json({message: `Usuário de id ${id} excluíudo com sucesso`});
+        } catch (error) {
+            if(error instanceof Error && error.name === 'NaoEncontrado') {
+                return res.status(404).json({message : error.message});
+            }            
+            return res.status(500).json({message: error.message});
+        }
+    }     
+    
+    /**
      * @param {*} req 
      * @param {*} res 
      * @returns 
      */
     static async login(req, res) {
         try {
-            const { email, senha } = req.body;
-            if( !(email && senha) ) {
-                return res.status(400).json({message: 'E-mail e senha são campos requeridos' });
-            }
-            const user = await procuraUsuario(email);
-            if(user && (await bcrypt.compare(senha, user.senha))) {
-                const accessToken = tokens.access.cria(user.id);
-                const refreshToken = await tokens.refresh.cria();
-                res.set('Authorization', accessToken);
-                return res.status(200).json({ refreshToken });
-            } else {
-                return res.status(400).json({message: 'Credenciais inválidas'});
-            }
+            const accessToken = tokens.access.cria(req.user.id);
+            const refreshToken = await tokens.refresh.cria(req.user.id);
+            res.set('Authorization', accessToken);
+            res.status(200).json({ refreshToken });
         } catch (error) {
            return res.status(500).json( { message: error.message }); 
         }
     }
 
+    /**
+     * @param {*} req 
+     * @param {*} res 
+     * @returns 
+     */
     static async logout(req, res) {
         try {
-           const { token } = req.body;
+           const token = req.token; 
            await tokens.access.invalida(token);
            res.status(200).json({ message: 'Usuário deslogado com sucesso' }); 
         } catch (error) {
             return res.status(500).json( { message: error.message }); 
         }
-    }
+    }   
 }
 
 module.exports = UsuarioController;

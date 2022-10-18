@@ -20,8 +20,8 @@ module.exports = {
       senha: {
         type: Sequelize.STRING
       },
-      token: {
-        type: Sequelize.STRING
+      verificado: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

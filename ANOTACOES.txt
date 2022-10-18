@@ -39,9 +39,63 @@ Data: Ago/2022
       @see routes\usuario-route.js
       @see controllers\usuario-controller.js
 
-   b. Criamos um middleware de autenticação com sua respectiva rota:
+   b. Criamos um middleware de autenticação:
       @see middleware\auth.js
 
-7. 
+7. Instalamos as libs do "passport" e duas estratégias de autenticação:
+    >npm install passport
+    >npm install passport-local 
+    >npm install passport-http-bearer
 
-    
+8. Declaramos as estratégias passport:
+   @see middleware\estrategias-passport.js
+
+22/09/2022 a 17/10/2022
+
+1. Após implementarmos o middleware de autenticação, as estratégias "passport", os objetos de tokens, as funções de "blacklist", 
+   "whitelist" e usuário, testamos as seguintes situações:
+
+   - Registrar-se como novo usuário 
+     Esperado: Novo usuário é adicionado, sendo mostrado id, nome e email no corpo da resposta, e e-mail enviado para o endereço 
+     fornecido 
+     Exceção 1: Faltando algum campo requerido, mensagem "Nome, e-mail e senha são campos requeridos"
+     Exceção 2: Email já cadastrado, mensagem "Usuário já existe. Faça o login"
+   - Confirmar registro de usuário  
+     Esperado: Campo de usuário "verificado" muda de '0' para '1', mensagem "Email verificado com sucesso"
+     Exceção 1: Token JWT expirado, mensagem "jwt expired at <data-hora>"
+     Exceçãõ 2: Token inválido, mensagem "invalid token"
+   - Login de usuário existente
+     Esperado: Credencial sendo validada, e no corpo da resposta o "refreshToken" 
+     Exceção 1: Usuário com senha incorreta, mensagem "Usuário ou senha inválidos"
+     Exceção 2: Usuário com email de login incorreto, mensagem "Usuário com e-mail <e-mail fornecido> não encontrado"
+     Exceção 3: Usuário com verificação de e-mail em "0", mensagem "Usuário não verificou seu email, portanto, não pode logar neste momento"
+   - Atualiza token
+     Esperado: No corpo da resposta o "refreshToken"
+     Exceção 1: Enviado refreshToken anterior expirado ou inválido, mensagem "refresh token inválido"
+     Exceção 2: refreshToken anterior não enviado, mensagem "refresh token não enviado"
+   - Atualiza usuário existente
+     Esperado: No corpo da resposta dados do usuário modificados
+     Exceção 1: Token de autorização na blacklist, invalidado por logout, mensagem "access token invalidado por logout"
+     Exceção 2: Token de autorização não enviado, mensagem "Não foi possível autenticar usuário" 
+     Exceção 3: Token de autorização expirado, mensagem "jwt expired at <data-hora>"
+     Exceção 4: Não foram enviados dados no corpo da requisição, mensagem "Não foi enviada nenhuma informação para ser alterada de Usuário id <id>"
+     Exceção 5: Usuário não existe, mensagem "Usuário de id <> não foi encontrado""
+   - Cria novo usuário 
+     Esperado: Novo usuário é adicionado, sendo mostrado id, nome, email e verificado no corpo da resposta 
+     Exceção 1: Token de autorização na blacklist, invalidado por logout, mensagem "access token invalidado por logout"
+     Exceção 2: Token de autorização não enviado, mensagem "Não foi possível autenticar usuário" 
+     Exceção 3: Token de autorização expirado, mensagem "jwt expired at <data-hora>"
+     Exceção 4: Não foram enviados todos os dados requeridos no corpo da requisição, mensagem "Nome, e-mail e senha são campos requeridos"
+     Exceção 5: Usuário já está cadastrado no sistema, mensagem "Usuário já existe. Faça o login"
+   - Excluir usuário existente 
+     Esperado: Mensagem "Usuário de id <id> excluído com sucesso" 
+     Exceção 1: Token de autorização na blacklist, invalidado por logout, mensagem "access token invalidado por logout"
+     Exceção 2: Token de autorização não enviado, mensagem "Não foi possível autenticar usuário" 
+     Exceção 3: Token de autorização expirado, mensagem "jwt expired at <data-hora>"
+     Exceção 4: Usuário não existe, mensagem "Usuário de id <id> não foi encontrado"
+   - Logout de usuário
+     Esperado: Mensagem "Usuário deslogado com sucesso" 
+     Exceção 1: Token de atualização expirado ou inválido, mensagem "refresh token inválido"
+     Exceção 2: Token de atualização não enviado, mensagem "refresh token não enviado"
+
+  
