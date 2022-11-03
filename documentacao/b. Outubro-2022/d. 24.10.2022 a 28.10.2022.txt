@@ -1,0 +1,26 @@
+*********************************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+Arquivo: Anotações de 24/10/2022 a 28/10/2022
+*********************************************
+
+1. Fizemos com que o "middleware" de autenticação retorne um objeto de Espostista a partir do usuário logado. Este usuário, por sua vez, 
+   pode ter (ou não) uma relação com Esportista. Dessa forma, caso o usuário logado seja o Esportista, este já poderá estar 
+   compondo a informação do controlador para manipular as demais informações
+
+2. Criamos a rota, função e controller para "criar" um Documento de Compra de PCE 
+
+3. Criamos a rota, função e controller para "excluir" um Documento de Compra de PCE
+
+4. Mudamos as funções do controlador do "Esportista" que tratavam Documento de Compra do PCE para o controlador do "PCE", 
+   por questões de semântica
+
+5. Criamos a rota, função e controller para "alterar" um Documento de Compra de PCE
+    
+6. Criamos a rota, função e controller para "listar" todos os Documentos de Compra de PCE
+
+7. Criamos a rota, função e controller para "visualizar" um Documento de Compra de PCE
+
+8. Criamos vários tipos de "Erros" padronizados para serem usados no sistema

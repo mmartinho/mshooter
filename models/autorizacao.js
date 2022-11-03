@@ -10,18 +10,18 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Autorizacao.belongsTo(models.Documento, {foreignKey: 'documento_id'});
-      Autorizacao.belongsTo(models.Local, {foreignKey: 'local_id'});
+      Autorizacao.belongsTo(models.Documento, {as: 'Documento', foreignKey: 'documento_id'});
+      Autorizacao.belongsTo(models.Local, {as: 'Local', foreignKey: 'local_id'});
     }
   }
   Autorizacao.init({
     local_id: DataTypes.INTEGER,
     documento_id: DataTypes.INTEGER,
-    dt_auorizacao: DataTypes.DATEONLY
+    dt_autorizacao: DataTypes.DATEONLY
   }, {
     sequelize,
     modelName: 'Autorizacao',
     tableName: 'autorizacao'
-  });
+  });  
   return Autorizacao;
 };

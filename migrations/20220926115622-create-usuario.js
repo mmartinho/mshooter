@@ -20,8 +20,13 @@ module.exports = {
       senha: {
         type: Sequelize.STRING
       },
+      administrador: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+      },      
       verificado: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,

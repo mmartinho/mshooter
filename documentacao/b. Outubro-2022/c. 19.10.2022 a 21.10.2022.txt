@@ -1,0 +1,16 @@
+*********************************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+Arquivo: Anotações de 19/10/2022 a 21/10/2022
+*********************************************
+
+1. Criamos a rota, funcao e controller para "criar" novos documentos
+
+2. Criamos a rota, função e controller para associar um PCE de um Esportista a um Documento de Compra
+
+
+    
+
+   

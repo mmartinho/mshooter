@@ -1,7 +1,7 @@
 'use strict';
 
 const {Model} = require('sequelize');
-const tipoLocal = require('../types/local-tipo');
+const tipoLocal = require('./types/local-tipo');
 
 module.exports = (sequelize, DataTypes) => {
   class Local extends Model {

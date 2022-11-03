@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const db = require('../../models');
 const Auxiliar = require('../../shared/functions/auxiliar');
+const InvalidArgumentError = require('../../shared/errors/invalid-argument');
+const UserNotFoundError = require('../../shared/errors/user-not-found');
 
 class Usuario {
     /**
@@ -89,9 +91,7 @@ class Usuario {
         var affected = [];
         var erro = null;
         if(Auxiliar.isEmpty(novosDados)) {
-            erro = new Error(`Não foi enviada nenhuma informação para ser alterada de Usuário id ${id}`); 
-            erro.name = 'ArgumentoInvalido';
-            throw erro;
+            throw new InvalidArgumentError(`Não foi enviada nenhuma informação para ser alterada de Usuário id ${id}`);
         }
         await db.Usuario.update(novosDados, { where: { id } })
             .then(result => { 
@@ -104,9 +104,7 @@ class Usuario {
             const userUpdated = await db.Usuario.findOne({ where: { id } });   
             return userUpdated;
         } else {
-            erro = new Error(`Usuário de id ${id} não foi encontrado`);
-            erro.name = 'NaoEncontrado';
-            throw erro;
+            throw new UserNotFoundError(`Usuário de id ${id} não foi encontrado`);
         }
     }    
 
@@ -128,9 +126,7 @@ class Usuario {
         if(affected > 0) {
             return id;
         } else {
-            erro = new Error(`Usuário de id ${id} não foi encontrado`);
-            erro.name = 'NaoEncontrado'; 
-            throw erro;
+            throw new UserNotFoundError(`Usuário de id ${id} não foi encontrado`);
         }  
     } 
     
@@ -152,9 +148,7 @@ class Usuario {
             const userVerified = await db.Usuario.findOne({ where: { id } });   
             return userVerified;
         } else {
-            erro = new Error(`Usuário de id ${id} não foi encontrado`);
-            erro.name = 'NaoEncontrado'; 
-            throw erro;
+            throw new UserNotFoundError(`Usuário de id ${id} não foi encontrado`);
         }             
     }
 

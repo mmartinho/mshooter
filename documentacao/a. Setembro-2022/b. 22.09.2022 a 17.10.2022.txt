@@ -1,56 +1,11 @@
-*******************************
+
+*********************************************
 ANOTAÇÔES DE PROJETO
 Projeto: mShooter / Backend App
 Autor: Marcus Martinho
 Data: Ago/2022
-*******************************
-
-12/09/2022 a 21/09/2022
-
-1. CRUD de controlador de PCE, Local e Esportista usando classe base, para não ter que repetir o mesmo código fonte:
-    >npx sequelize-cli model:create --name <NomeDoModelo> 
-         --attributes <nomeAtributo>:<tipoAtributo>,<nomeAtributo>:<tipoAtributo>,...
-    >npx sequelize-cli db:migrate
-    >npx sequelize-cli db:migrate:undo
-
-2. Seeder de PCE e Local com dados reais
-    >npx sequelize-cli seed:generate --name <nomeDoSeed>
-    >npx sequelize-cli db:seed:all
-    >npx sequelize-cli db:seed:undo
-
-3. As seguintes relações bi-direcionais foram declaradas:
-   - PCE/Compra
-   - Compra/Documento
-   - Documento/Autorizacao
-   - Registro/Esportista
-   - Frequencia/Esportista
-   - Local/Frequencia
-
-4. Instalamos os packs:
-    >npm install jsonwebtoken dotenv bcryptjs 
-
-5. Configuramos a aplicação para aceitar variáveis ".env"
-
-6. Seguimos os passos de 
-   https://www.section.io/engineering-education/how-to-build-authentication-api-with-jwt-token-in-nodejs/
-   para desenvolvermos a API de autenticação do mShooter backend
-
-   a. Rota / controlador para "registro" de novo usuário e "login"
-      @see routes\usuario-route.js
-      @see controllers\usuario-controller.js
-
-   b. Criamos um middleware de autenticação:
-      @see middleware\auth.js
-
-7. Instalamos as libs do "passport" e duas estratégias de autenticação:
-    >npm install passport
-    >npm install passport-local 
-    >npm install passport-http-bearer
-
-8. Declaramos as estratégias passport:
-   @see middleware\estrategias-passport.js
-
-22/09/2022 a 17/10/2022
+Arquivo: Anotações de 22/09/2022 a 17/10/2022
+*********************************************
 
 1. Após implementarmos o middleware de autenticação, as estratégias "passport", os objetos de tokens, as funções de "blacklist", 
    "whitelist" e usuário, testamos as seguintes situações:

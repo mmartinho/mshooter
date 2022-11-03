@@ -1,0 +1,17 @@
+*********************************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+Arquivo: Anotações de 31/10/2022 a 04/11/2022
+*********************************************
+
+1. No momento que precisamos listar os PCEs, percebemos que se faz necessário saber quais são os PCEs pertencentes ao usuário 
+   Esportista que está logado. A única forma de conseguirmos isso é pela Compra do PCE, entretanto, não necessariamente temos
+   um PCE comprado (ele pode ser transferido). Além disso, não é obrigatório termos um documento, seja de compra, seja de 
+   apostilamento
+
+2. Criamos mais uma relação de "Esportista" com "Documento" chamada "Apostilamento" 
+
+3. Criamos os controladores, funções e rotas para "criar", "altualizar" , "excluir", "listar" e "mostrar" dados de PCEs de Esportista 
+

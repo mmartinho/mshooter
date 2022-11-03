@@ -1,16 +1,23 @@
 const passport = require('passport');
 const tokens = require('./tokens');
 const Usuario = require('../models/funcoes/usuario');
+const UserUnauthorizedError = require('../shared/errors/user-unauthorized');
 
 class AuthMiddleware {
     static local(req, res, next) {
         passport.authenticate('local', { session: false }, (error, usuario, info) => {
             if(!usuario && !error) {
-                return res.status(401).json({message: 'Não foi possível autenticar usuário'});
+                return res.status(401).json({message: 'Não foi possível autorizar requisição por método local'});
             }
-            if(error && error.name === 'ArgumentoInvalido') {
+            if(error && error.name === 'InvalidArgument') {
                 return res.status(401).json({message: error.message});
             }
+            if(error && error.name === 'UserNotFound') {
+                return res.status(404).json({message: error.message});
+            } 
+            if(error && error.name === 'InvalidUserOrPassword') {
+                return res.status(401).json({message: error.message});
+            }                        
             if(error) {
                 return res.status(500).json({message: error.message});
             }
@@ -20,9 +27,9 @@ class AuthMiddleware {
     }
 
     static bearer(req, res, next) {
-        passport.authenticate('bearer', {session: false}, (error, usuario, info) => {
+        passport.authenticate('bearer', {session: false}, async (error, usuario, info) => {
             if(!usuario && !error) {
-                return res.status(401).json({message: 'Não foi possível autenticar usuário'});
+                return res.status(401).json({message: 'Não foi possível autorizar requisição por método bearer'});
             } 
             if(error && error.name === 'JsonWebTokenError') {
                 return res.status(401).json({message: error.message});
@@ -35,6 +42,12 @@ class AuthMiddleware {
             }  
             req.token = info.token;
             req.user = usuario; 
+            req.esportista = await usuario.getEsportista();
+            req.administrador = usuario.administrador ? usuario : null;
+            if(!req.esportista && !req.administrador) {
+                const usuarioNaoAutorizado = new UserUnauthorizedError();
+                return res.status(401).json({message: usuarioNaoAutorizado.message}); 
+            }
             return next();
         }
         )(req, res, next)
@@ -48,7 +61,7 @@ class AuthMiddleware {
             req.user = await Usuario.buscaPorId(id);
             return next();            
         } catch (error) {
-            if(error.name === 'ArgumentoInvalido') {
+            if(error.name === 'InvalidArgument') {
                 return res.status(401).json({message: error.message});
             }
             return res.status(500).json({message: error.message});

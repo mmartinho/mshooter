@@ -1,11 +1,14 @@
 const passport = require('passport');
-const { verifica } = require('../controllers/usuario-controller');
 
 const LocalStrategy = require('passport-local').Strategy;
 const BearerStrategy = require('passport-http-bearer').Strategy;
 
 const Usuario = require('../models/funcoes/usuario');
 const tokens = require('./tokens');
+
+const UserNotFoundError = require('../shared/errors/user-not-found');
+const InvalidUserOrPasswordError = require('../shared/errors/invalid-user-or-password');
+const UserNotVerifiedError = require('../shared/errors/user-not-verified');
 
 passport.use(
     new LocalStrategy(
@@ -18,14 +21,14 @@ passport.use(
             try {
                 const usuario = await Usuario.buscaPorEmail(email); 
                 if(!usuario) {
-                    throw new Error(`Usuário com e-mail ${email} não encontrado`);
+                    throw new UserNotFoundError(`Usuário com e-mail ${email} não encontrado`);;
                 }
                 const senhaOk = await Usuario.verificaSenha(senha, usuario.senha); 
-                if(!senhaOk) {
-                    throw new Error(`Usuário ou senha inválidos`);  
+                if(!senhaOk) { 
+                    throw new InvalidUserOrPasswordError(`Usuário ou senha inválidos`);  
                 }
                 if(!usuario.verificado) {
-                    throw new Error(`Usuário não verificou seu email, portanto, não pode logar neste momento`);
+                    throw new UserNotVerifiedError(`Usuário não verificou seu email, portanto, não pode logar neste momento`);
                 }
                 done(null, usuario);  
             } catch (error) {
@@ -39,10 +42,10 @@ passport.use(
     new BearerStrategy(
         async (token, done) => {
             try{
-                const id = await tokens.access.verifica(token);
+                const id = await tokens.access.verifica(token);                
                 const usuario = await Usuario.buscaPorId(id);
                 if(!usuario) {
-                    throw new Error(`Usuário com ${id} não encontrado`);  
+                    throw new UserNotFoundError(`Usuário com ${id} não encontrado`);  
                 }
                 done(null, usuario, {token: token});
             } catch (error) {

@@ -1,12 +1,13 @@
 'use strict';
+const db = require('../models');
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-
     await queryInterface.bulkInsert('Pce', [
       {
         nome: 'Pistola PT-838',
         tipo: 2,
+        esportista_id: 1,
         alias: 'Tathiana',
         sigma: '855098',
         nserie: 'KIT12948',
@@ -21,6 +22,7 @@ module.exports = {
       {
         nome: 'Carabina CBC 7022 way',
         tipo: 3,
+        esportista_id: 1,
         alias: 'Cartarina',
         sigma: '875344',
         nserie: 'EPG4199102',
@@ -35,6 +37,7 @@ module.exports = {
       {
         nome: 'Pistola Ruger Mark 1',
         tipo: 2,
+        esportista_id: 1,
         alias: 'Ruggy',
         sigma: '454829',
         nserie: '1654072',
@@ -49,6 +52,7 @@ module.exports = {
       {
         nome: 'Pistola Imbel MD2A2',
         tipo: 2,
+        esportista_id: 1,
         alias: 'Mamba Albina',
         sigma: '150077',
         nserie: 'ECA01182',
@@ -63,6 +67,7 @@ module.exports = {
       {
         nome: 'Pistola Smith & Wesson',
         tipo: 2,
+        esportista_id: 1,
         alias: 'Silvia Silver',
         sigma: '1069537',
         nserie: 'UEF0715',
@@ -77,6 +82,7 @@ module.exports = {
       {
         nome: 'Carabina Puma 38',
         tipo: 3,
+        esportista_id: 1,
         alias: 'Maria Bonita',
         sigma: '332129',
         nserie: 'SB000915',
@@ -91,6 +97,7 @@ module.exports = {
       {
         nome: 'Pistola PT92',
         tipo: 2,
+        esportista_id: 1,
         alias: 'Monica Bellucci',
         sigma: '1125564',
         nserie: 'ABB320429',
@@ -105,6 +112,7 @@ module.exports = {
       {
         nome: 'Pistola PT1911',
         tipo: 2,
+        esportista_id: 1,
         alias: 'Ana de Armas',
         sigma: '1819675',
         nserie: 'ABN319389',
@@ -119,6 +127,7 @@ module.exports = {
       {
         nome: 'Prensa Recargamatic',
         tipo: 4,
+        esportista_id: 1,
         alias: null,
         sigma: null,
         nserie: '4275-19',
@@ -133,6 +142,7 @@ module.exports = {
       {
         nome: 'Prensa JMA',
         tipo: 4,
+        esportista_id: 1,
         alias: null,
         sigma: null,
         nserie: '300890820',
@@ -147,6 +157,7 @@ module.exports = {
       {
         nome: 'Matrizes Lee 38SPL/357MAG',
         tipo: 4,
+        esportista_id: 1,
         alias: null,
         sigma: null,
         nserie: null,
@@ -161,6 +172,7 @@ module.exports = {
       {
         nome: 'Matrizes Lee 9MM',
         tipo: 4,
+        esportista_id: 1,
         alias: null,
         sigma: null,
         nserie: null,
@@ -175,6 +187,7 @@ module.exports = {
       {
         nome: 'Matrizes Lee 40S&W/10MM',
         tipo: 4,
+        esportista_id: 1,
         alias: null,
         sigma: null,
         nserie: null,
@@ -189,6 +202,7 @@ module.exports = {
       {
         nome: 'Matrizes Lee 45ACP',
         tipo: 4,
+        esportista_id: 1,
         alias: null,
         sigma: null,
         nserie: null,
@@ -200,7 +214,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       },                                                                 
-    ], {});
+    ], { }); 
   },
 
   async down (queryInterface, Sequelize) {

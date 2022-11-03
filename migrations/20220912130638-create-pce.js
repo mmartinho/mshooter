@@ -8,6 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      esportista_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },       
       nome: {
         type: Sequelize.STRING
       },
@@ -47,6 +51,17 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+    await queryInterface.addConstraint('pce', { 
+      type: 'FOREIGN KEY',
+      name: 'esportista_pce_fk',
+      fields: ['esportista_id'],
+      references: {
+        table: 'esportista',
+        field: 'id'
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });    
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('pce');

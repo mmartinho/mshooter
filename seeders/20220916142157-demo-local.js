@@ -8,7 +8,7 @@ module.exports = {
         nome: 'Local de Guarda Principal',
         endereco: 'Av. Constantino Nery, 3451 Apto 301, T02, Manaus/AM',
         tipo: 2,
-        cnpj: '',
+        cnpj: null,
         createdAt: new Date(),
         updatedAt: new Date()        
       },      
@@ -68,7 +68,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()        
       },                                             
-    ], {});
+    ], { });
   },
 
   async down (queryInterface, Sequelize) {

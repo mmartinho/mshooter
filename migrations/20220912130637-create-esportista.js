@@ -14,15 +14,6 @@ module.exports = {
       foto: {
         type: Sequelize.STRING.BINARY
       },
-      email: {
-        type: Sequelize.STRING
-      },
-      password : {
-        type: Sequelize.STRING
-      },
-      token: {
-        type: Sequelize.STRING
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

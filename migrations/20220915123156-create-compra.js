@@ -15,7 +15,7 @@ module.exports = {
       documento_id: {
         allowNull: false,
         type: Sequelize.INTEGER
-      },             
+      },                   
       dt_compra: {
         type: Sequelize.DATEONLY
       },
@@ -46,10 +46,10 @@ module.exports = {
       references: {
         table: 'pce',
         field: 'id'
-      },
+      },     
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE'
-    });    
+    });        
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.removeConstraint('compra','pce_compra_fk');

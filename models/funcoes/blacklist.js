@@ -21,7 +21,11 @@ class Blacklist {
      * @returns string
      */
     static geraHash(caracteres) {
-        return createHash('sha256').update(caracteres).digest('hex');
+        if(caracteres) {
+            return createHash('sha256').update(caracteres).digest('hex');
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -44,6 +48,9 @@ class Blacklist {
      */
     static async verificaTokenJWT(token, nome) {
         const tokenHash = Blacklist.geraHash(token);
+        if(!tokenHash) {
+           throw new jwt.JsonWebTokenError(`Token Bearer não enviado`); 
+        }
         const contem = await db.Blacklist.findOne({ where: { chave: tokenHash } });
         if(contem) {
             throw new jwt.JsonWebTokenError(`${nome} token invalidado por logout`);

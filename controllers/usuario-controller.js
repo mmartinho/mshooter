@@ -1,6 +1,7 @@
 const tokens = require('../middleware/tokens');
 const Usuario = require('../models/funcoes/usuario');
 const EmailVerificacao = require('../models/classes/emails');
+const UserNotFoundError = require('../shared/errors/user-not-found');
 
 function geraEndereco(rota, token) {
     const baseUrl = `${process.env.API_HOST}:${process.env.API_PORT}`;
@@ -91,8 +92,11 @@ class UsuarioController {
             const userUpdated = await Usuario.atualizar(novosDados, id);          
             return res.status(200).json({ id: userUpdated.id, nome: userUpdated.nome, email: userUpdated.email});
         } catch (error) {
-            if(error instanceof Error && error.name === 'NaoEncontrado') {
+            if(error instanceof UserNotFoundError) {
                 return res.status(404).json({message : error.message});
+            }
+            if(error instanceof InvalidArgumentError) {
+                return res.status(400).json({message : error.message}); 
             }
             return res.status(500).json({message: error.message});
         }
@@ -109,7 +113,7 @@ class UsuarioController {
             await Usuario.excluir(id);          
             return res.status(200).json({message: `Usuário de id ${id} excluíudo com sucesso`});
         } catch (error) {
-            if(error instanceof Error && error.name === 'NaoEncontrado') {
+            if(error instanceof UserNotFoundError) {
                 return res.status(404).json({message : error.message});
             }            
             return res.status(500).json({message: error.message});

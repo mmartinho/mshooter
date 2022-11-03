@@ -1,7 +1,7 @@
 const moment = require('moment');
 const crypto = require('crypto');
-
 const db = require('../../models');
+const InvalidArgumentError = require('../../shared/errors/invalid-argument');
 
 class Whitelist {
     /**
@@ -23,15 +23,11 @@ class Whitelist {
      */
     static async verificaTokenOpaco(chave, nome) {
         if(!chave) {
-            const error = new Error(`${nome} token não enviado`);
-            error.name = 'ArgumentoInvalido';
-            throw error;
+            throw new InvalidArgumentError(`${nome} token não enviado`);
         }
         const encontrado = await db.Whitelist.findOne({ where: { chave } });
         if(!encontrado) {
-            const error = new Error(`${nome} token inválido`); 
-            error.name = 'ArgumentoInvalido';
-            throw error;
+            throw new InvalidArgumentError(`${nome} token inválido`);
         }
         return encontrado.user_id;  
     }; 

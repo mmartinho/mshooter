@@ -25,7 +25,6 @@ class CRUDController {
      */
     static async listAll(req, res) {
         const model = CRUDController.modelFromUrl(req.url);
-        console.log(model);
         try {
             const all = await db[model].findAll();
             return res.status(200).json(all);
