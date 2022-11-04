@@ -64,6 +64,7 @@ module.exports = {
     });    
   },
   async down(queryInterface, Sequelize) {
+    await queryInterface.removeConstraint('pce','esportista_pce_fk');
     await queryInterface.dropTable('pce');
   }
 };

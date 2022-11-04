@@ -32,12 +32,21 @@ class Pce {
         return itemAtualizado;
     }
 
+    /**
+     * @param Number esportista_id 
+     * @param Object 
+     * @returns Pce
+     */
     static async criaItemDoEsportista(esportista_id, dados) {   
         dados.esportista_id = esportista_id;
         const itemCriado = await db.Pce.create(dados);
         return itemCriado;
     }
 
+    /**
+     * @param Number id 
+     * @param Number esportista_id 
+     */
     static async excluiItemDoEsportista(id, esportista_id) {
         await db.Pce.destroy({ where: { id, esportista_id } });        
     }

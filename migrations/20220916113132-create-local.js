@@ -8,6 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      esportista_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },        
       nome: {
         type: Sequelize.STRING
       },
@@ -29,8 +33,20 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+    await queryInterface.addConstraint('local', { 
+      type: 'FOREIGN KEY',
+      name: 'esportista_local_fk',
+      fields: ['esportista_id'],
+      references: {
+        table: 'esportista',
+        field: 'id'
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });     
   },
   async down(queryInterface, Sequelize) {
+    await queryInterface.removeConstraint('local','esportista_local_fk');
     await queryInterface.dropTable('local');
   }
 };

@@ -13,5 +13,9 @@ Arquivo: Anotações de 31/10/2022 a 04/11/2022
 
 2. Criamos mais uma relação de "Esportista" com "Documento" chamada "Apostilamento" 
 
-3. Criamos os controladores, funções e rotas para "criar", "altualizar" , "excluir", "listar" e "mostrar" dados de PCEs de Esportista 
+3. Criamos os controladores, funções e rotas para "criar", "altualizar" , "excluir", "listar" e "mostrar" dados de PCEs 
+   de Esportista 
+
+4. Criamos os controladores, funções e rotas para 'criar', 'altualizar' , 'excluir', 'listar' e 'mostrar' dados de 
+   Locais de Treino/Prova de Esportista 
 

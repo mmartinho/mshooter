@@ -10,10 +10,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Documento.hasMany(models.Compra, {foreignKey: 'documento_id'});
-      Documento.hasMany(models.Registro, {foreignKey: 'documento_id'});  
-      Documento.hasMany(models.Autorizacao, {foreignKey: 'documento_id'}); 
-      Documento.hasMany(models.Apostilamento, {foreignKey: 'documento_id'}); 
+      Documento.hasMany(models.Compra, {as: 'Compra', foreignKey: 'documento_id'});
+      Documento.hasMany(models.Registro, {as: 'Registro', foreignKey: 'documento_id'});  
+      Documento.hasMany(models.Autorizacao, {as: 'Autorizacao', foreignKey: 'documento_id'}); 
+      Documento.hasMany(models.Apostilamento, {as: 'Apostilamento', foreignKey: 'documento_id'}); 
     }
   }
   Documento.init({

@@ -10,9 +10,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Esportista.hasMany(models.Registro, {foreignKey: 'esportista_id'});
-      Esportista.hasMany(models.Frequencia, {foreignKey: 'esportista_id'});
-      Esportista.hasOne(models.Usuario, {foreignKey: 'esportista_id'});
+      Esportista.hasMany(models.Registro, {as: 'Registro', foreignKey: 'esportista_id'});
+      Esportista.hasMany(models.Frequencia, {as: 'Frequencia', foreignKey: 'esportista_id'});
+      Esportista.hasMany(models.Pce, {as: 'Pce', foreignKey: 'esportista_id'});
+      Esportista.hasMany(models.Local, {as: 'Local', foreignKey: 'esportista_id'});
+      Esportista.hasOne(models.Usuario, {as: 'Usuario', foreignKey: 'esportista_id'});
     }
   }
   Esportista.init({
