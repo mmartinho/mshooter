@@ -1,7 +1,6 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Documento extends Model {
     /**
@@ -12,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Documento.hasMany(models.Compra, {as: 'Compra', foreignKey: 'documento_id'});
       Documento.hasMany(models.Registro, {as: 'Registro', foreignKey: 'documento_id'});  
-      Documento.hasMany(models.Autorizacao, {as: 'Autorizacao', foreignKey: 'documento_id'}); 
       Documento.hasMany(models.Apostilamento, {as: 'Apostilamento', foreignKey: 'documento_id'}); 
     }
   }
@@ -22,11 +20,18 @@ module.exports = (sequelize, DataTypes) => {
     numero: DataTypes.STRING,
     dt_expedicao: DataTypes.DATEONLY,
     dt_validade: DataTypes.DATEONLY,
-    arquivo: DataTypes.STRING.BINARY
+    arquivoNome: DataTypes.STRING,
+    arquivoExt: DataTypes.STRING,
+    arquivoConteudo: DataTypes.BLOB('long')
   }, {
     sequelize,
     modelName: 'Documento',
-    tableName: 'documento'
+    tableName: 'documento',
+    scopes : { 
+      semConteudo : {
+        attributes : { exclude : ['arquivoConteudo']}
+      }
+    }
   });
   return Documento;
 };

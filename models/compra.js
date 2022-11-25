@@ -1,7 +1,6 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Compra extends Model {
     /**
@@ -12,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Compra.belongsTo(models.Pce, {as: 'Pce', foreignKey: 'pce_id'});
       Compra.belongsTo(models.Documento, {as: 'Documento', foreignKey: 'documento_id'});
+      Compra.belongsTo(models.Documento.scope('semConteudo'), {as: 'documentoSemConteudo', foreignKey: 'documento_id'});
     }
   }
   Compra.init({

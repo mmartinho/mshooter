@@ -16,4 +16,15 @@ router.put('/local/:id', [AuthMiddleware.bearer], LocalController.atualiza);
 /** Delete a single object */
 router.delete('/local/:id', [AuthMiddleware.bearer], LocalController.exclui);
 
+/** List all MunicaoUtilizada objects */
+router.get('/local/:id/habitualidade', [AuthMiddleware.bearer], LocalController.listaHabitualidades);
+/** Get a single MunicaoUtilizada object */
+router.get('/local/:id/habitualidade/:habitualidade_id', [AuthMiddleware.bearer], LocalController.mostraHabitualidade);
+/** Create new MunicaoUtilizada object */
+router.post('/local/:id/habitualidade', [AuthMiddleware.bearer], LocalController.criaHabitualidade);
+/** Update a single MunicaoUtilizada object */
+router.put('/local/:id/habitualidade/:habitualidade_id', [AuthMiddleware.bearer], LocalController.atualizaHabitualidade);
+/** Delete a single MunicaoUtilizada object */
+router.delete('/local/:id/habitualidade/:habitualidade_id', [AuthMiddleware.bearer], LocalController.excluiHabitualidade);
+
 module.exports = router;

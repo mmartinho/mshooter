@@ -1,0 +1,20 @@
+*********************************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+Arquivo: Anotações de 07/11/2022 a 11/11/2022
+*********************************************
+
+1. Alteramos a tabela de relacionamento "frequencia", renomeando-a para "municaoutilizada". Isso é porque não faz sentido um esportista 
+   registrar frequencia em "local" sem explicitar  a "municao". Em essência, um treino ou competição (o propósito) envolve 
+   este objeto
+
+2. Além do objeto de "municao" não faz sentido sem o uso de um "pce" tipo "pistola" ou "carabina". Então, "municaoutilizada" precisa 
+   estar relacionada ao objeto de "pce" também
+
+3. Criamos rota, cotroller, modelo e tabela para Munição
+
+4. Refatoramos as funções para extender funções que relacionam modelos do escopo do Esportista
+
+5. Começamos a desenvolver o https://morioh.com/p/e3157bf4bf84 para lidar com os BLOBS dos arquivos de documento

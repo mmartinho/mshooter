@@ -23,8 +23,14 @@ module.exports = {
       dt_validade: {
         type: Sequelize.DATEONLY
       },
-      arquivo: {
-        type: Sequelize.STRING.BINARY
+      arquivoNome: {
+        type: Sequelize.STRING
+      }, 
+      arquivoExt: {
+        type: Sequelize.STRING
+      },       
+      arquivoConteudo: {
+        type: Sequelize.BLOB('long')
       },
       createdAt: {
         allowNull: false,

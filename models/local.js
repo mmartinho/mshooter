@@ -1,5 +1,4 @@
 'use strict';
-
 const {Model} = require('sequelize');
 const tipoLocal = require('./types/local-tipo');
 
@@ -11,8 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Local.hasMany(models.Frequencia, {as: 'Frequencia', foreignKey: 'local_id'});
-      Local.hasMany(models.Autorizacao, {as: 'Autorizacao', foreignKey: 'local_id'});
+      Local.hasMany(models.MunicaoUtilizada, {as: 'MunicaoUtilizada', foreignKey: 'local_id'});
       Local.belongsTo(models.Esportista, {as: 'Esportista', foreignKey: 'esportista_id'});
     }
   }

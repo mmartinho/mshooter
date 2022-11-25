@@ -1,0 +1,30 @@
+*********************************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+Arquivo: Anotações de 21/11/2022 a 25/11/2022
+*********************************************
+
+1. Desenvolvendo as funções CRUD de documento, e de download somente para fins de compreensão de conceito, pois, 
+   um documento está sempre envolvido com outra Entidade
+
+2. Passamos a implementar o conceito de upload / download de "documento" em:
+   2.1 PCE: 
+       2.1.1 Documento de apostilamento de registro de PCE do Esportista
+       2.1.2 Documento de Compra do PCE do Esportista:
+             2.1.2.1 Cria documento de compra de PCE do Espostista
+             2.1.2.2 Atualiza Documento de Compra de PCE do Esportista
+             2.1.2.3 Lista Todos Documentos de Compra de PCE do Esportista
+             2.1.2.4 Visualiza Documento de Compra de PCE do Esportista
+             2.1.2.5 Exclui Documento de Compra de PCE do Esportista
+             2.1.2.6 Download do arquivo do Documento de Compra de PCE do Esportista
+   2.2 Local:
+       2.2.1 Documento de registro de habitualidade que envolve utilização de PCE (arma de fogo) e Munição
+             pelo esportista no Local de Treino / Prova
+
+
+   
+
+
+   

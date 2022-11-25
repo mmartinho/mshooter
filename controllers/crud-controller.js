@@ -4,6 +4,8 @@ const db = require('../models');
  * General Object handling
  */
 class CRUDController {
+    constructor() {}
+    
     /**
      * Extract model name from a string url format
      * 

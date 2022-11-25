@@ -26,5 +26,6 @@ router.put('/pce/:pce_id/compra/:documento_id', [AuthMiddleware.bearer], PCECont
 router.get('/pce/:pce_id/compra/', [AuthMiddleware.bearer], PCEController.listaTodosDocumentoCompra);
 /** Mostra um documento de Compra de PCE */
 router.get('/pce/:pce_id/compra/:documento_id', [AuthMiddleware.bearer], PCEController.visualizaDocumentoCompra);
-
+/** Download do arquivo do documento de Compra de PCE */
+router.get('/pce/:pce_id/compra/:documento_id/download', [AuthMiddleware.bearer], PCEController.downloadDocumentoCompra);
 module.exports = router;

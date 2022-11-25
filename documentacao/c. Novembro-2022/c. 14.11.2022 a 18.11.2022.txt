@@ -1,0 +1,14 @@
+*********************************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+Arquivo: Anotações de 14/11/2022 a 18/11/2022
+*********************************************
+
+1. A desenvolver o https://youtu.be/hyJiNTFtQic para lidar com upload dos arquivos de documento
+
+2. A desenvolver o https://www.bezkoder.com/node-js-upload-image-mysql/ para salvar o arquivo BLOB no mysql
+ 
+
+   
