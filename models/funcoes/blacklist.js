@@ -1,7 +1,5 @@
 const jwt =  require('jsonwebtoken');
 const { createHash } = require('crypto');
-
-const KEY = process.env.TOKEN_KEY;
 const db = require('../../models');
 
 class Blacklist {
@@ -12,7 +10,7 @@ class Blacklist {
      */
     static criaTokenJWT(id, [tempo, unidade]) {
         const payLoad = { id };
-        const token = jwt.sign(payLoad, KEY, { expiresIn : tempo + unidade});
+        const token = jwt.sign(payLoad, process.env.TOKEN_KEY, { expiresIn : tempo + unidade});
         return token;
     }
 
@@ -55,7 +53,7 @@ class Blacklist {
         if(contem) {
             throw new jwt.JsonWebTokenError(`${nome} token invalidado por logout`);
         }
-        const { id } = jwt.verify(token, KEY);  
+        const { id } = jwt.verify(token, process.env.TOKEN_KEY);  
         return id;  
     }    
 };
