@@ -8,13 +8,34 @@ class CRUDController {
     
     /**
      * Extract model name from a string url format
+     * Things like /something-another will be SomethingAnother
      * 
      * @param string url 
      * @returns string
      */
     static modelFromUrl(url) {
-        const str = url.split('/')[1].replace(/[^a-zA-Z]+/g,'');
-        const modelName = str.charAt(0).toUpperCase() + str.slice(1);
+        var modelName = '';
+        var nomes = [];
+        var nome = '';
+        /**
+         * Separa os "/" em classes, resultando em:
+         * ['','alguma-coisa', '', 'outra-coisa']
+         */
+        var classes = url.split('/');
+        /** 
+         * Pega apenas a segunda classe e separa cada nome 
+         * entre "-" , resultando em: ['alguma', 'coisa']
+         */
+        nomes = classes[1].split('-'); 
+        /**
+         * Pra cada nome, considerando só os caracteres alfa,
+         * concatena em uma unica string todos os nomes, deixando 
+         * o primeiro caractere de cada nome maiusculo 
+         */
+        for(var i=0; i < nomes.length; i++){
+            nome = nomes[i].replace(/[^a-zA-Z]+/g,''); // considera só o alfa de cada nome
+            if(nome) { modelName += nome.charAt(0).toUpperCase() + nome.slice(1); }
+        }  
         return modelName;
     }
 
@@ -26,10 +47,21 @@ class CRUDController {
      * @returns Model[] | string
      */
     static async listAll(req, res) {
+        const params = req.params;
         const model = CRUDController.modelFromUrl(req.url);
+        var all = [];
+        var total = 0;
         try {
-            const all = await db[model].findAll();
-            return res.status(200).json(all);
+            if('offset' in params && 'limit' in params && params['limit'] && params['offset']) {
+                await db[model].findAndCountAll({limit: Number(params.limit), offset: Number(params.offset)}).then((result)=> {
+                    all = result.rows;
+                    total = result.count;
+                });
+                return res.status(200).json({ model, total, rows : all});
+            } else {
+                all = await db[model].findAll();
+                return res.status(200).json(all);
+            }
         } catch (error) {
             return res.status(500).json({ message: error.message }); 
         }
@@ -46,10 +78,12 @@ class CRUDController {
         const { id } = req.params;
         const model = CRUDController.modelFromUrl(req.url);
         try {
-            const one = await db[model].findOne({ 
-                where: { id: Number(id) } 
-            });
-            return res.status(200).json(one);
+            const one = await db[model].findOne({ where: { id: Number(id) } });
+            if(one) {
+                return res.status(200).json(one);
+            } else {
+                return res.status(404).json({ message: `${model} de ID ${id} não encontrado`});
+            }
         } catch (error) {
             return res.status(500).json({ message: error.message }); 
         }
@@ -86,21 +120,17 @@ class CRUDController {
         const model = CRUDController.modelFromUrl(req.url);
         try {
             // update
-            await db[model].update(newData, { 
-                where: { 
-                    id: Number(id) 
-                } 
-            });
+            await db[model].update(newData, { where: { id: Number(id) } });
             // search again
-            const updatedOne = await db[model].findOne({ 
-                where: { 
-                    id: Number(id) 
-                } 
-            });            
-            return res.status(200).json(updatedOne);
+            const updatedOne = await db[model].findOne({ where: { id : Number(id) } });
+            if(updatedOne) {           
+                return res.status(200).json(updatedOne);
+            } else {
+                return res.status(404).json({ message: `${model} de ID ${id} não encontrado`});
+            }
         } catch (error) {
             return res.status(500).json({ message: error.message });
-        }        
+        }       
     }    
 
     /**
@@ -113,13 +143,14 @@ class CRUDController {
     static async deleteObject(req, res) {
         const { id } = req.params;
         const model = CRUDController.modelFromUrl(req.url);
+        var affected=0;
         try {
-            await db[model].destroy({
-                where: { 
-                    id: Number(id) 
-                }                 
-            });
-            return res.status(200).json({message:`${model} id ${id} deletado`});
+            await db[model].destroy({where:{id: Number(id)}}).then(result => {affected = result});
+            if(affected > 0) {
+                return res.status(200).json({message:`${model} id ${id} deletado(a)`});
+            } else {
+                return res.status(404).json({message:`${model} id ${id} não encontrado(a)`});
+            }
         } catch (error) {
             return res.status(500).json(error);
         }

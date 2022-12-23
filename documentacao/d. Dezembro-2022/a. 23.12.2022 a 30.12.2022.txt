@@ -1,0 +1,46 @@
+*********************************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+Arquivo: Anotações de 23/12/2022 a 30/12/2022
+*********************************************
+
+1. Atividades anteriores, desenvolvemos o CRUD, upload e download de documentos em PCE e Habitualidade em Local 
+
+2. Instalamos e carregamos a biblioteca CORS:
+   >npm install cors
+   @see routes\index.js
+
+3. Adicionada a rota "no-route"
+   @see routes\no-route.js
+
+4. Lista de "Locais" está PAGINADA:
+   @see controllers\local-controller.js
+   @see routes\local-route.js
+
+5. Lista de "Municao" do esportista está PAGINADA:
+   @see routes\municao-route.js
+
+6. Lista de "MunicaoUtilizada" (habitualidade) no "Local" pelo esportista está PAGINADA:
+   @see routes\local-route.js
+   @see controllers\local-controller.js
+   @see models\funcoes\local.js
+
+7. Lista de "Esportista" está PAGINADA
+   @see routes\esportista-route.js
+
+8. Lista de "PCE" de Esportista está PAGINADA
+   @see routes\pce-route.js
+   @see controllers\pce-controller.js
+
+9. Lista de "Compra" de "PCE" de Esportista está PAGINADA:
+   @see routes\pce-route.js
+   @see controllers\pce-controller.js
+   @see models\funcoes\compra.js
+
+
+
+
+
+   

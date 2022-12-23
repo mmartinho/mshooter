@@ -1,15 +1,13 @@
 const CRUDController = require('./crud-controller');
 const localDoEsportista = require('../models/funcoes/local');
 
-/**
- * Local handling
- */
 class LocalController extends CRUDController{
     static async listAll(req, res) {
+        const { limit, offset } = req.params;
         const esportista = req.esportista; // vem do middleware
         if(esportista) {
             try {
-                const lista = await localDoEsportista.lista(esportista.id);
+                const lista = await localDoEsportista.lista(esportista.id, limit, offset);
                 return res.status(200).json(lista);
             } catch (error) {
                 return res.status(500).json({ message: error.message }); 
@@ -83,10 +81,10 @@ class LocalController extends CRUDController{
 
     static async listaHabitualidades(req, res) {
         const esportista = req.esportista; // vem do middleware
-        const { id } = req.params;
+        const { id, offset, limit } = req.params;
         if(esportista) {
             try {
-                const lista = await localDoEsportista.listaHabitualidades(id, esportista.id);
+                const lista = await localDoEsportista.listaHabitualidades(id, esportista.id, limit, offset);
                 return res.status(200).json(lista);
             } catch (error) {
                 return res.status(500).json({ message: error.message }); 
@@ -101,11 +99,11 @@ class LocalController extends CRUDController{
         const { id, habitualidade_id } = req.params; 
         if(esportista) {
             try {
-                const lista = await localDoEsportista.mostraHabitualidade(id, habitualidade_id, esportista.id);
-                if(!lista) {
+                const one = await localDoEsportista.mostraHabitualidade(id, habitualidade_id, esportista.id);
+                if(!one) {
                     return res.status(404).json({ message: `Habitualidade de ID ${habitualidade_id} não foi encontrada`});  
                 }
-                return res.status(200).json(lista);
+                return res.status(200).json(one);
             } catch (error) {
                 return res.status(500).json({ message: error.message }); 
             }            

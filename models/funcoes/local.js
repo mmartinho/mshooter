@@ -5,12 +5,28 @@ class Local extends DoEsportista {
     
     /**
      * @param Number id 
-     * @param Number esportista_id 
+     * @param Number esportista_id
+     * @param Number limit
+     * @param Number offset 
      * @returns MunicaoUtilizada[]
      */
-    async listaHabitualidades(id, esportista_id) {
-        const all = await db.MunicaoUtilizada.findAll({ where: { local_id: id, esportista_id } });
-        return all; 
+    async listaHabitualidades(id, esportista_id, limit=null, offset=null) {
+        var all = [];
+        var total = 0;     
+        if(limit === null || offset === null) {
+            const all = await db.MunicaoUtilizada.findAll({ where: { local_id: id, esportista_id } });
+            return all; 
+        } else {
+            await db.MunicaoUtilizada.findAndCountAll({
+                limit:Number(limit), 
+                offset:Number(offset), 
+                where: { local_id: id, esportista_id }
+            }).then((result)=> {
+                all = result.rows;
+                total = result.count;
+            });
+            return { model:'MunicaoUtilizada', total, rows : all};            
+        }
     }
 
     /**

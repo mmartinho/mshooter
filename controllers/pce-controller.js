@@ -6,9 +6,10 @@ const pceDoEsportista = require('../models/funcoes/pce');
 class PCEController extends CRUDController{
     static async listAll(req, res) {
         const esportista = req.esportista; // vem do middleware
+        const { offset, limit } = req.params;
         if(esportista) {
             try {
-                const lista = await pceDoEsportista.lista(esportista.id);
+                const lista = await pceDoEsportista.lista(esportista.id, limit, offset);
                 return res.status(200).json(lista);
             } catch (error) {
                 return res.status(500).json({ message: error.message }); 
@@ -144,11 +145,11 @@ class PCEController extends CRUDController{
     static async listaTodosDocumentoCompra(req, res) {
         try {
             const esportista = req.esportista; // vem do middleware
-            const { pce_id } = req.params;
+            const { pce_id, limit, offset } = req.params;
             if(!esportista.id) {
                 return res.status(409).json({message : `Usuário logado ${req.user.nome} não é um esportista`});
             }         
-            const documentosCompra = await Compra.lista(esportista.id, pce_id);
+            const documentosCompra = await Compra.lista(esportista.id, pce_id, limit, offset);
             return res.status(200).json(documentosCompra);
         } catch (error) {
             return res.status(500).json( {message: error.message});

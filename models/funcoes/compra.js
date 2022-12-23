@@ -25,18 +25,35 @@ class Compra {
     }
 
     /**
-     * @param number esportista_id
-     * @param number pce_id 
+     * @param Number esportista_id
+     * @param Number pce_id
+     * @param Number limit
+     * @param Number offset 
      * @throws PceNotFoundError
      * @returns Compra[]
      */
-     static async lista(esportista_id, pce_id) {
+     static async lista(esportista_id, pce_id, limit=null, offset=null) {
+        var all = [];
+        var total = 0; 
         const pce = await pceDoEsportista.item(pce_id, esportista_id);
         if(!pce) {
             throw new PceNotFoundError(`PCE ID ${pce_id} não é do esportista ID ${esportista_id} ou não existe`);
-        }          
-        const all = await db.Compra.findAll({ where: { pce_id }, include: ['Pce','documentoSemConteudo'] });
-        return all;    
+        }              
+        if(limit === null || offset === null) {
+            all = await db.Compra.findAll({ where: { pce_id }, include: ['Pce','documentoSemConteudo'] });
+            return all;            
+        } else {
+            await db.Compra.findAndCountAll({
+                limit:Number(limit), 
+                offset:Number(offset), 
+                where: { pce_id },
+                include : ['Pce','documentoSemConteudo']
+            }).then((result)=> {
+                all = result.rows;
+                total = result.count;
+            });
+            return { model:this.modelo, total, rows : all};            
+        }            
     }    
 
     /**

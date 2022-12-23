@@ -22,11 +22,6 @@ async function enviaEmailVerificacao(user) {
 
 class UsuarioController {
 
-    /**
-     * @param {*} req 
-     * @param {*} res 
-     * @returns 
-     */
     static async registrar(req, res) {
         try {
             const { nome, email, senha } = req.body;
@@ -44,11 +39,7 @@ class UsuarioController {
         }
     } 
     
-    /**
-     * @param {*} req 
-     * @param {*} res 
-     */
-     static async verifica(req, res) {
+    static async verifica(req, res) {
         try {
           const usuario = req.user; // vem do middleware
           await Usuario.verifica(usuario.id);
@@ -58,11 +49,6 @@ class UsuarioController {
         }
     }     
 
-    /**
-     * @param {*} req 
-     * @param {*} res 
-     * @returns 
-     */
     static async criar(req, res) {
         try {
             const { nome, email, senha } = req.body;
@@ -80,17 +66,19 @@ class UsuarioController {
         }
     }      
 
-    /**
-     * @param {*} req 
-     * @param {*} res 
-     * @returns 
-     */
-     static async atualizar(req, res) {
+    static async atualizar(req, res) {
         try {
             const { id } = req.params;
             const novosDados = req.body
+            if('email' in novosDados) {
+                return res.status(400).json({message: `Não é possível alterar email neste sistema`});
+            } else if('senha' in novosDados ) {
+                return res.status(400).json({message: `Não é possível alterar a senha do usuário usando esta função. Utilize função específica`});
+            } else if('nome' in novosDados && novosDados['nome'] === '') {
+                return res.status(400).json({message: `Não é possível deixar o nome de usuário em branco neste sistema`});
+            }
             const userUpdated = await Usuario.atualizar(novosDados, id);          
-            return res.status(200).json({ id: userUpdated.id, nome: userUpdated.nome, email: userUpdated.email});
+            return res.status(200).json({message: `Usuário '${userUpdated.nome}' foi atualizado com sucesso`});
         } catch (error) {
             if(error instanceof UserNotFoundError) {
                 return res.status(404).json({message : error.message});
@@ -102,12 +90,7 @@ class UsuarioController {
         }
     }     
 
-    /**
-     * @param {*} req 
-     * @param {*} res 
-     * @returns 
-     */
-     static async excluir(req, res) {
+    static async excluir(req, res) {
         try {
             const { id } = req.params;
             await Usuario.excluir(id);          
@@ -120,11 +103,6 @@ class UsuarioController {
         }
     }     
     
-    /**
-     * @param {*} req 
-     * @param {*} res 
-     * @returns 
-     */
     static async login(req, res) {
         try {
             const accessToken = tokens.access.cria(req.user.id);
@@ -136,11 +114,6 @@ class UsuarioController {
         }
     }
 
-    /**
-     * @param {*} req 
-     * @param {*} res 
-     * @returns 
-     */
     static async logout(req, res) {
         try {
            const token = req.token; 

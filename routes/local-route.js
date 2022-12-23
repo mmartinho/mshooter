@@ -6,7 +6,7 @@ const AuthMiddleware = require('../middleware/auth');
 const router = Router();
 
 /** List all objects */
-router.get('/local', [AuthMiddleware.bearer], LocalController.listAll);
+router.get('/local/paginada/:offset/:limit', [AuthMiddleware.bearer], LocalController.listAll);
 /** Get a single object */
 router.get('/local/:id', [AuthMiddleware.bearer], LocalController.singleObject);
 /** Create a single object */
@@ -17,7 +17,7 @@ router.put('/local/:id', [AuthMiddleware.bearer], LocalController.atualiza);
 router.delete('/local/:id', [AuthMiddleware.bearer], LocalController.exclui);
 
 /** List all MunicaoUtilizada objects */
-router.get('/local/:id/habitualidade', [AuthMiddleware.bearer], LocalController.listaHabitualidades);
+router.get('/local/:id/habitualidade/paginada/:offset/:limit', [AuthMiddleware.bearer], LocalController.listaHabitualidades);
 /** Get a single MunicaoUtilizada object */
 router.get('/local/:id/habitualidade/:habitualidade_id', [AuthMiddleware.bearer], LocalController.mostraHabitualidade);
 /** Create new MunicaoUtilizada object */

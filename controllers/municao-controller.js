@@ -4,9 +4,10 @@ const municaoDoEsportista = require('../models/funcoes/municao');
 class MunicaController extends CRUDController {
     static async listAll(req, res) {
         const esportista = req.esportista; // vem do middleware
+        const { limit, offset } = req.params;
         if(esportista) {
             try {
-                const lista = await municaoDoEsportista.lista(esportista.id);
+                const lista = await municaoDoEsportista.lista(esportista.id, limit, offset);
                 return res.status(200).json(lista);
             } catch (error) {
                 return res.status(500).json({ message: error.message }); 

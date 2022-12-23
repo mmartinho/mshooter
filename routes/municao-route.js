@@ -6,7 +6,7 @@ const AuthMiddleware = require('../middleware/auth');
 const router = Router();
 
 /** List all objects */
-router.get('/municao', [AuthMiddleware.bearer], MunicaoController.listAll);
+router.get('/municao/paginada/:offset/:limit', [AuthMiddleware.bearer], MunicaoController.listAll);
 /** Get a single object */
 router.get('/municao/:id', [AuthMiddleware.bearer], MunicaoController.singleObject);
 /** Create a single object */
