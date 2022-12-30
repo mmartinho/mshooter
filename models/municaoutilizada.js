@@ -14,9 +14,11 @@ module.exports = (sequelize, DataTypes) => {
       MunicaoUtilizada.belongsTo(models.Local, {as: 'Local', foreignKey: 'local_id'});
       MunicaoUtilizada.belongsTo(models.Municao, {as: 'Municao', foreignKey: 'municao_id'});
       MunicaoUtilizada.belongsTo(models.Pce, {as: 'Pce', foreignKey: 'pce_id'});
+      MunicaoUtilizada.hasMany(models.Habitualidade, {as: 'Habitualidade', foreignKey: 'municaoutilizada_id'});
     }
   }
   MunicaoUtilizada.init({
+    dthr_utilizacao: DataTypes.DATE,
     qtde_usada: DataTypes.INTEGER,
     qtde_transportada: DataTypes.INTEGER,
     qtde_local: DataTypes.INTEGER,
@@ -27,9 +29,7 @@ module.exports = (sequelize, DataTypes) => {
          return rawValue ? tipoProposito.toDescription(rawValue) : null;
       }
     },    
-    observacao: DataTypes.TEXT,
-    dthr_frequencia: DataTypes.DATE,
-    arquivo: DataTypes.STRING
+    observacao: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'MunicaoUtilizada',

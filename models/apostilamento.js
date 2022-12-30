@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Apostilamento.belongsTo(models.Pce, {as: 'Pce', foreignKey: 'pce_id'});
       Apostilamento.belongsTo(models.Documento, {as: 'Documento', foreignKey: 'documento_id'});
+      Apostilamento.belongsTo(models.Documento.scope('semConteudo'), {as: 'documentoSemConteudo', foreignKey: 'documento_id'});
     }
   }
   Apostilamento.init({

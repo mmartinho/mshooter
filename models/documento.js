@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Documento.hasMany(models.Compra, {as: 'Compra', foreignKey: 'documento_id'});
+      Documento.hasMany(models.Habitualidade, {as: 'Habitualidade', foreignKey: 'documento_id'});
       Documento.hasMany(models.Registro, {as: 'Registro', foreignKey: 'documento_id'});  
       Documento.hasMany(models.Apostilamento, {as: 'Apostilamento', foreignKey: 'documento_id'}); 
     }

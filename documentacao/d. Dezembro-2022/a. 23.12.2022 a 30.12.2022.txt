@@ -39,8 +39,50 @@ Arquivo: Anotações de 23/12/2022 a 30/12/2022
    @see controllers\pce-controller.js
    @see models\funcoes\compra.js
 
+10. Fizemos a refatoração dos controladores:
+    - "local-controller": As funções de Habitualidade foram movidas para "habitualidade-controller":
+      @see controllers\local-controller.js
+      @see controllers\habitualidade-controller.js
+    - "pce-controller": As funções de Documento de Compra foram movidas para "documento-compra-controller":
+      @see controllers\pce-controller.js
+      @see controllers\documento-compra-controller.js
 
+11. Criamos o modelo Habitualidade se relacionando com Documento e MunicaoUtilizada:
+    @see models\habitualidade.js
 
+12. Alteramos os modelos de "Documento" e "MunicaoUtilizada" para se relacionarem com o modelo Habitualidade:
+    @see models\documento.js
+    @see models\municaoutilizada.js
 
+13. Alteramos a migração de "MunicaoUtilizada", removendo o campo "arquivo" (passa ser do modelo Documento) e
+    "dthr_frequencia" (passando-o para o modelo Habitualidade):
+    @see migrations\20220916122643-create-municaoutilizada.js
 
-   
+14. Criamos uma nova migração para Habitualidade:
+    @see migrations\20220916122644-create-habitualidade.js
+
+15. É necessário criar o registro de "Utilização" do PCE e Munição" antes de lançar a "Habitualidade". 
+    Decidimos inserir a rota para registrar a utilização de munição e pce no local pelo esportista usando o sequinte formato:
+    
+    /local/:local_id/pce/:pce_id/municao/:municao_id/municaoutilizada
+    /local/:local_id/pce/:pce_id/municao/:municao_id/municaoutilizada/:municaoutilizada_id
+    ...
+
+    @see routes\local-route.js
+
+16. Criamos uma rota para gerenciar "Documento Habitualidade" no contexto da "Munição Utilizada", usando o sequinte formato:
+    
+    /municaoutilizada/:municaoutilizada_id/habitualidade
+    /municaoutilizada/:municaoutilizada_id/habitualidade/:habitualidade_id
+    ...
+
+    @see routes\municao-utilizada-route.js
+
+17. Criamos uma rota para gerenciar o "Documento Apostilamento" no contexto de "PCE", usando o sequinte formato:
+
+    /pce/:pce_id/apostilamento
+    /pce/:pce_id/apostilamento/:documento_id
+    ...
+
+    @see routes\pce-route.js
+

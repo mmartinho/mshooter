@@ -24,6 +24,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },   
+      dthr_utilizacao: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },      
       qtde_usada: {
         type: Sequelize.INTEGER
       },  
@@ -33,12 +37,6 @@ module.exports = {
       qtde_local: {
         type: Sequelize.INTEGER
       },                           
-      dthr_frequencia: {
-        type: Sequelize.DATEONLY
-      },
-      arquivo: {
-        type: Sequelize.STRING
-      },
       proposito: {
         type: Sequelize.TINYINT(1)
       },  

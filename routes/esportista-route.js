@@ -5,15 +5,25 @@ const AuthMiddleware = require('../middleware/auth');
 
 const router = Router();
 
-/** List all objects */
-router.get('/esportista/paginada/:offset/:limit', [AuthMiddleware.bearer], EsportistaController.listAll);
-/** Get a single object */
-router.get('/esportista/:id', [AuthMiddleware.bearer], EsportistaController.singleObject);
-/** Create a single object */
-router.post('/esportista', [AuthMiddleware.bearer], EsportistaController.createObject);
-/** Update a single object */
-router.put('/esportista/:id', [AuthMiddleware.bearer], EsportistaController.updateObject);
-/** Delete a single object */
-router.delete('/esportista/:id', [AuthMiddleware.bearer], EsportistaController.deleteObject);
+/** Lista paginada de todos os Esportistas */
+router.get('/esportista/paginada/:offset/:limit', 
+    [AuthMiddleware.bearer], 
+    EsportistaController.listAll);
+/** Mostra Esportista em particular */
+router.get('/esportista/:id', 
+    [AuthMiddleware.bearer], 
+    EsportistaController.singleObject);    
+/** Cria um novo Esportista */
+router.post('/esportista', 
+    [AuthMiddleware.bearer], 
+    EsportistaController.createObject);
+/** Atualiza um Esportista específico */
+router.put('/esportista/:id', 
+    [AuthMiddleware.bearer], 
+    EsportistaController.updateObject);    
+/** Exclui um Esportista específico */
+router.delete('/esportista/:id', 
+    [AuthMiddleware.bearer], 
+    EsportistaController.deleteObject);
 
 module.exports = router;

@@ -9,23 +9,24 @@ class DoEsportista {
     }
 
     /**
-     * @param Number esportista_id
-     * @param Number limit
-     * @param Number offset
-     * @returns Modelo[]
+     * @param integer esportista_id
+     * @param integer limit (default null)
+     * @param integer offset (default null)
+     * @returns {*}
      */
     async lista(esportista_id, limit=null, offset=null) {
         var all = [];
-        var total = 0;     
+        var total = 0;
+        var criteria = { 
+            where: {esportista_id: Number(esportista_id)} 
+        }     
         if(limit === null || offset === null) {
-            all = await db[this.modelo].findAll({ where: { esportista_id } });
+            all = await db[this.modelo].findAll(criteria);
             return all;
         } else {
-            await db[this.modelo].findAndCountAll({
-                limit:Number(limit), 
-                offset:Number(offset), 
-                where: { esportista_id }
-            }).then((result)=> {
+            criteria.limit = Number(limit);
+            criteria.offset = Number(offset);
+            await db[this.modelo].findAndCountAll(criteria).then((result)=> {
                 all = result.rows;
                 total = result.count;
             });
@@ -34,44 +35,61 @@ class DoEsportista {
     } 
 
     /**
-     * @param Number id 
-     * @param Number esportista_id 
+     * @param integer id 
+     * @param integer esportista_id 
      * @returns Modelo
      */
     async item(id, esportista_id) {
-        const one = await db[this.modelo].findOne({ where: { id, esportista_id } }); 
+        const criteria = {
+            where: {
+                id: Number(id), 
+                esportista_id: Number(esportista_id)
+            } 
+        }
+        const one = await db[this.modelo].findOne(criteria); 
         return one;        
     }  
     
     /**
-     * @param Number id 
-     * @param Number esportista_id 
+     * @param integer id 
+     * @param integer esportista_id 
      * @param {*} dados
      * @returns Modelo
      */
     async atualizaItem(id, esportista_id, dados) {
-        await db[this.modelo].update(dados, { where: { id, esportista_id } }); // atualiza
-        const itemAtualizado = await db[this.modelo].findOne({where: {id, esportista_id}}); // busca denovo
+        const criteria = {
+            where: {
+                id: Number(id), 
+                esportista_id: Number(esportista_id)
+            }
+        }
+        await db[this.modelo].update(dados, criteria); // atualiza
+        const itemAtualizado = await db[this.modelo].findOne(criteria); // busca denovo
         return itemAtualizado;
     }
 
     /**
-     * @param Number esportista_id 
+     * @param integer esportista_id 
      * @param {*} dados 
      * @returns Modelo
      */
     async criaItem(esportista_id, dados) {   
-        dados.esportista_id = esportista_id;
+        dados.esportista_id = Number(esportista_id);
         const itemCriado = await db[this.modelo].create(dados);
         return itemCriado;
     }
 
     /**
-     * @param Number id 
-     * @param Number esportista_id 
+     * @param integer id 
+     * @param integer esportista_id 
      */
     async excluiItem(id, esportista_id) {
-        await db[this.modelo].destroy({ where: { id, esportista_id } });        
+        await db[this.modelo].destroy({ 
+            where: { 
+                id: Number(id), 
+                esportista_id: Number(esportista_id) 
+            } 
+        });        
     } 
 }
 

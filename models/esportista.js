@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       Esportista.hasMany(models.Municao, {as: 'Municao', foreignKey: 'esportista_id'});
       Esportista.hasMany(models.Pce, {as: 'Pce', foreignKey: 'esportista_id'});
       Esportista.hasMany(models.Local, {as: 'Local', foreignKey: 'esportista_id'});
+      Esportista.hasMany(models.Habitualidade, {as: 'Habitualidade', foreignKey: 'esportista_id'});
       Esportista.hasOne(models.Usuario, {as: 'Usuario', foreignKey: 'esportista_id'});
     }
   }
