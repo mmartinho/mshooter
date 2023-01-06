@@ -1,9 +1,12 @@
 const { Router } = require('express');
 const MunicaoController = require('../controllers/municao-controller');
+const InsumoMovimentacaoController = require('../controllers/insumo-molvimentacao-controller');
 const AuthStrategies = require('../middleware/estrategias-passport');
 const AuthMiddleware = require('../middleware/auth');
 
 const router = Router();
+
+/** ******************* CRUD DE MUNICAO *********************** */
 
 /** Lista paginada de todas as munições do Esportista */
 router.get('/municao/paginada/:offset/:limit', 
@@ -25,5 +28,12 @@ router.put('/municao/:id',
 router.delete('/municao/:id', 
     [AuthMiddleware.bearer], 
     MunicaoController.exclui);
+
+/** *************************************** MOVIMENTACAO DE INSUMO ******************************************** */
+
+/** Lista paginada de todas as Movimentações de Insumos registradas pelo Esportista para Munição Específica */
+router.get('/municao/:municao_id/insumomovimentacao/paginada/:offset/:limit', 
+    [AuthMiddleware.bearer], 
+    InsumoMovimentacaoController.lista); 
 
 module.exports = router;

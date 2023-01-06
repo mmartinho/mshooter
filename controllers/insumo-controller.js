@@ -1,13 +1,13 @@
 const CRUDController = require('./crud-controller');
-const municaoDoEsportista = require('../models/funcoes/municao');
+const insumoDoEsportista = require('../models/funcoes/insumo');
 
-class MunicaController extends CRUDController {
+class InsumoController extends CRUDController {
     static async listAll(req, res) {
         const esportista = req.esportista; // vem do middleware
         const { limit, offset } = req.params;
         if(esportista) {
             try {
-                const lista = await municaoDoEsportista.lista(esportista.id, limit, offset);
+                const lista = await insumoDoEsportista.lista(esportista.id, limit, offset);
                 return res.status(200).json(lista);
             } catch (error) {
                 return res.status(500).json({ message: error.message }); 
@@ -21,9 +21,9 @@ class MunicaController extends CRUDController {
         const { id } = req.params;
         if(esportista) {
             try {
-                const item = await municaoDoEsportista.item(id, esportista.id);
+                const item = await insumoDoEsportista.item(id, esportista.id);
                 if(!item) {
-                    return res.status(404).json({ message : `Munição ID ${id} não encontrada` }); 
+                    return res.status(404).json({ message : `Insumo ID ${id} não encontrado` }); 
                 }
                 return res.status(200).json(item);
             } catch (error) {
@@ -35,16 +35,16 @@ class MunicaController extends CRUDController {
 
     static async cria(req, res) {
         const esportista = req.esportista; // vem do middleware
-        const { nome, calibre } = req.body;
+        const { nome, tipo } = req.body;
         const dados = req.body;
         if(!esportista) {
             return res.status(401).json({message : `${req.user.nome} não é um esportista`});
         }
-        if(!(nome && calibre)) {
-            return res.status(400).json({message: 'Nome e calibre são campos requeridos' });
+        if(!(nome && tipo)) {
+            return res.status(400).json({message: 'Nome e tipo são campos requeridos' });
         }
         try {
-            const itemCriado = await municaoDoEsportista.criaItem(esportista.id, dados);
+            const itemCriado = await insumoDoEsportista.criaItem(esportista.id, dados);
             return res.status(201).json(itemCriado);
         } catch (error) {
             return res.status(500).json({ message: error.message }); 
@@ -59,9 +59,9 @@ class MunicaController extends CRUDController {
             return res.status(401).json({message : `${req.user.nome} não é um esportista`});
         }
         try {
-            const itemAtualizado = await municaoDoEsportista.atualizaItem(id, esportista.id, novosDados);
+            const itemAtualizado = await insumoDoEsportista.atualizaItem(id, esportista.id, novosDados);
             if(!itemAtualizado) {
-                return res.status(404).json({message: `Munição ID ${id} não foi encontrada`});
+                return res.status(404).json({message: `Insumo ID ${id} não foi encontrado`});
             }
             return res.status(200).json(itemAtualizado);
         } catch (error) {
@@ -76,11 +76,11 @@ class MunicaController extends CRUDController {
             return res.status(401).json({message : `${req.user.nome} não é um esportista`});
         }    
         try {
-            const excluiu = await municaoDoEsportista.excluiItem(id, esportista.id);
-            if(excluiu){
-                return res.status(200).json({ message : `Munição ID ${id} foi excluída com sucesso`});
+            const excluiu = await insumoDoEsportista.excluiItem(id, esportista.id);
+            if(excluiu) {
+                return res.status(200).json({ message : `Insumo ID ${id} foi excluído com sucesso`});
             } else {
-                return res.status(404).json({ message : `Munição ID ${id} não foi encontrada`});
+                return res.status(404).json({ message : `Insumo ID ${id} não foi encontrado`});
             }
         } catch (error) {
             return res.status(500).json({ message: error.message }); 
@@ -88,4 +88,4 @@ class MunicaController extends CRUDController {
     }     
 }
 
-module.exports = MunicaController;
+module.exports = InsumoController;

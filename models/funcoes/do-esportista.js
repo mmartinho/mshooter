@@ -84,12 +84,18 @@ class DoEsportista {
      * @param integer esportista_id 
      */
     async excluiItem(id, esportista_id) {
+        var excluiu = false;
         await db[this.modelo].destroy({ 
             where: { 
                 id: Number(id), 
                 esportista_id: Number(esportista_id) 
             } 
-        });        
+        }).then(affected => {
+            if(affected > 0) {
+                excluiu = true;
+            }
+        }); 
+        return excluiu;       
     } 
 }
 

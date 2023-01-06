@@ -1,0 +1,30 @@
+*********************************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+Arquivo: Anotações de 02/01/2023 a 06/01/2023
+*********************************************
+
+1. Atividades anteriores, desenvolvemos o registro de "Munição Utilizada" em "Local" e "upload" e "download" de Arquivo de registro de 
+   "Habitualidade"
+
+2. Inserimos os modelos:
+   - Insumo
+   - Insumo Utilizado
+
+3. Criamos o CRUD para "Insumo"
+
+4. Criamos seeder de "Insumos"
+
+5. Criamos o CRUD para "Movimentação de Insumo"
+
+6. Documento de Movimentação de Insumo:
+   - Tabela 
+   - Controller 
+   - Modelo
+   - Funções do Modelo
+
+
+
+   

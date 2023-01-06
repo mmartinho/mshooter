@@ -7,6 +7,7 @@ const esportista = require('./esportista-route');
 const usuario = require('./usuario-route');
 const municao = require('./municao-route');
 const municaoUtilizada = require('./municao-utilizada-route');
+const insumo = require('./insumo-route');
 const noRoute = require('./no-route');
 
 module.exports = (app) => {
@@ -23,5 +24,6 @@ module.exports = (app) => {
     app.use(usuario);
     app.use(municao);
     app.use(municaoUtilizada);
+    app.use(insumo);
     app.use(noRoute); // sempre por último
 }

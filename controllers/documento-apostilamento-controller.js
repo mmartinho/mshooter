@@ -153,7 +153,7 @@ class DocumentoApostilamentoController extends CRUDController {
                     }
                 }); 
             } else {
-                return res.status(404).json({ message: `Documento ID ${id} não encontrado` });
+                return res.status(404).json({ message: `Documento ID ${documento_id} não encontrado` });
             }                    
         } catch (error) {
             return res.status(500).json( {message: error.message});
