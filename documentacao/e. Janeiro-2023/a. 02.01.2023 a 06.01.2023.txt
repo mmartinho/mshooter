@@ -25,6 +25,14 @@ Arquivo: Anotações de 02/01/2023 a 06/01/2023
    - Modelo
    - Funções do Modelo
 
+7. Criamos um novo GIT bare repo remoto no "cartão local", adicionando-o como remoto no projeto:
+   >cd F:/projects.git/mshooter/
+   >git init --bare
+   >cd D:\wamp64\www\mshooter
+   >git remote add sdcard file:///f:/projects.git/mshooter
+   >git push sdcard master
 
-
-   
+8. Criamos um novo GIT bare repo remoto no GITHUB.COM, adicionando-o como remoto no projeto:
+   >git remote add github git@github.com:mmartinho/mshooter.git
+   >git branch -M master
+   >git push -u github master
