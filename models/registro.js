@@ -1,5 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
+const tipoRegistro = require('./types/registro-tipo');
 
 module.exports = (sequelize, DataTypes) => {
   class Registro extends Model {
@@ -11,12 +12,21 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Registro.belongsTo(models.Esportista, {as: 'Esportista', foreignKey: 'esportista_id'});
       Registro.belongsTo(models.Documento, {as: 'Documento', foreignKey: 'documento_id'});
+      Registro.belongsTo(models.Documento.scope('semConteudo'), {as: 'documentoSemConteudo', foreignKey: 'documento_id'});
     }
   }
   Registro.init({
     documento_id: DataTypes.INTEGER,
     esportista_id: DataTypes.INTEGER,
-    dt_registro: DataTypes.DATEONLY
+    dt_registro: DataTypes.DATEONLY,
+    atividades: DataTypes.STRING,
+    tipo: {
+      type: DataTypes.INTEGER,
+      get() {
+         const rawValue = this.getDataValue('tipo');
+         return rawValue ? tipoRegistro.toDescription(rawValue) : null;
+      }
+    },
   }, {
     sequelize,
     modelName: 'Registro',

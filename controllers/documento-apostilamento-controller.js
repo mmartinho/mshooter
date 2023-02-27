@@ -16,14 +16,14 @@ class DocumentoApostilamentoController extends CRUDController {
             if(!(nome && numero)) {
                 return res.status(400).json({message: 'Nome e número são campos requeridos' });
             } 
-            if(await Documento.existe(numero)) {
+            if(await Documento.existe(esportista.id, numero)) {
                 return res.status(409).json({message: `Documento número ${numero} já existe`});
             }
             if(!req.files || Object.keys(req.files).length === 0) { 
                 return res.status(400).json({message: 'Nenhum arquivo foi enviado'});
             }
             arquivo = req.files.arquivo;            
-            const documentoCreated = await Documento.criar(nome, descricao, numero, dt_expedicao, dt_validade, arquivo);             
+            const documentoCreated = await Documento.criar(esportista.id, nome, descricao, numero, dt_expedicao, dt_validade, arquivo);             
             if(await Apostilamento.existe(esportista.id, pce_id, documentoCreated.id)) {
                 return res.status(409).json({
                     message: 
@@ -60,9 +60,13 @@ class DocumentoApostilamentoController extends CRUDController {
             if(req.files && Object.keys(req.files).length > 0) { 
                 arquivo = req.files.arquivo; 
             }
-            const documento = await Documento.atualizar(apostilamento.documento_id, novosDados, arquivo);
-            const pce = await apostilamento.getPce();
-            return res.status(200).json({id: apostilamento.id, dt_apostilamento: apostilamento.dt_apostilamento, pce, documento});
+            const documento = await Documento.atualizar(esportista.id, apostilamento.documento_id, novosDados, arquivo);
+            if(documento) {
+                const pce = await apostilamento.getPce();
+                return res.status(200).json({id: apostilamento.id, dt_apostilamento: apostilamento.dt_apostilamento, pce, documento});
+            } else {
+                return res.status(404).json({message: `Documento ID ${documento_id} não encontrado`});
+            }
         } catch (error) {
             return res.status(500).json( {message: error.message});
         }
@@ -97,9 +101,13 @@ class DocumentoApostilamentoController extends CRUDController {
                         `do PCE ID ${pce_id} com documento ID ${documento_id} não existe`
                 });
             }
-            const documento = await Documento.buscaPorId(apostilamento.documento_id);
-            const pce = await apostilamento.getPce();
-            return res.status(200).json({id: apostilamento.id, dt_apostilamento: apostilamento.dt_apostilamento, pce, documento});
+            const documento = await Documento.buscaPorId(esportista.id, apostilamento.documento_id);
+            if(documento) {
+                const pce = await apostilamento.getPce();
+                return res.status(200).json({id: apostilamento.id, dt_apostilamento: apostilamento.dt_apostilamento, pce, documento});
+            } else {
+                return res.status(404).json({message: `Documento ID ${documento_id} não encontrado`});
+            }
         } catch (error) {
             return res.status(500).json( {message: error.message});
         }
@@ -120,8 +128,11 @@ class DocumentoApostilamentoController extends CRUDController {
                         `do PCE ID ${pce_id} com documento ID ${documento_id} não existe`
                 });
             }
-            await Documento.excluir(apostilamento.documento_id);
-            return res.status(200).json({message: `Documento de apostilamento de PCE excluído com sucesso`});
+            const excluiu = await Documento.excluir(esportista.id, apostilamento.documento_id);
+            if(excluiu) 
+                return res.status(200).json({message: `Documento ID ${documento_id} de apostilamento de PCE excluído com sucesso`});
+            else
+                return res.status(404).json({message: `Documento ID ${documento_id} não encontrado`});
         } catch (error) {
             return res.status(500).json( {message: error.message});
         }
@@ -142,7 +153,7 @@ class DocumentoApostilamentoController extends CRUDController {
                         `do PCE ID ${pce_id} com documento ID ${documento_id} não existe`
                 });
             }    
-            let documento = await Documento.buscaPorId(apostilamento.documento_id, true);
+            let documento = await Documento.buscaPorId(esportista.id,apostilamento.documento_id, true);
             if(documento) { 
                 return res.status(200).download(documento.arquivo, documento.arquivoNome, (error) => {
                     if(error) {

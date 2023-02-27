@@ -1,6 +1,6 @@
 const tokens = require('../middleware/tokens');
 const Usuario = require('../models/funcoes/usuario');
-const EmailVerificacao = require('../models/classes/emails');
+const EmailVerificacao = require('../models/classes/email-verificacao');
 const UserNotFoundError = require('../shared/errors/user-not-found');
 
 function geraEndereco(rota, token) {

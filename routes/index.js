@@ -6,8 +6,16 @@ const local = require('./local-route');
 const esportista = require('./esportista-route');
 const usuario = require('./usuario-route');
 const municao = require('./municao-route');
-const municaoUtilizada = require('./municao-utilizada-route');
 const insumo = require('./insumo-route');
+const movimentacao = require('./movimentacoes/movimentacao-route');
+const movimentacaoAquisicao = require('./movimentacoes/movimentacao-aquisicao-route');
+const movimentacaoDescarte = require('./movimentacoes/movimentacao-descarte-route');
+const movimentacaoRecarga = require('./movimentacoes/movimentacao-recarga-route');
+const movimentacaoDesmontagem = require('./movimentacoes/movimentacao-desmontagem-route');
+const movimentacaoUtilizacao = require('./movimentacoes/movimentacao-utilizacao-route');
+const movimentacaoReutilizacao = require('./movimentacoes/movimentacao-reutilizacao-route');
+const movimentacaoDocumento = require('./movimentacoes/movimentacao-documento-route');
+const comunicacao = require('./comunicacao-route');
 const noRoute = require('./no-route');
 
 module.exports = (app) => {
@@ -23,7 +31,15 @@ module.exports = (app) => {
     app.use(esportista);
     app.use(usuario);
     app.use(municao);
-    app.use(municaoUtilizada);
     app.use(insumo);
+    app.use(movimentacao);
+    app.use(movimentacaoAquisicao);
+    app.use(movimentacaoDescarte);
+    app.use(movimentacaoRecarga);
+    app.use(movimentacaoDesmontagem);
+    app.use(movimentacaoUtilizacao);
+    app.use(movimentacaoReutilizacao);    
+    app.use(movimentacaoDocumento);
+    app.use(comunicacao);
     app.use(noRoute); // sempre por último
 }

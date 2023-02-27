@@ -1,0 +1,45 @@
+*********************************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+Arquivo: Anotações de 30/01/2023 a 03/02/2023
+*********************************************
+
+1. Nas atividades anteriores, criamos rotas, controladores e funções para Movimentação de Munições e Insumos 
+   (aquisição, descarte, desmontagem, utilização e recarga)
+
+2. Nas atividades anteriores, criamos rotas, controladores e funções para o CRUD de "Documento de Movimentação"
+
+3. Nas atividades anteriores, criamos a função Estoque.insumo()
+
+4. Nas atividades anteriores, Criamos o "seeder" de Movimentação de Insumos (desmontagem, aquisição e descarte), 
+   e o "seeder" de Movimentação de Insumos para Recarga
+
+5. Criamos o "seeder" de Movimentação de Munições Recarregadas
+
+6. Criamos o "seeder" de Movimentação aquisição de Munições
+
+7. Dropamos/Recriamos o BD, e:
+   >npx sequelize-cli db:migrate
+   >npx sequelize-cli db:seed:all
+
+8. Excluimos a tabela, modelo e função de "Munição Utilizada" e "Documento de Habitualidade". Munição Utilizada foi
+   absorvida por Movimentação, e Documento de Habitualidade por Documento de Movimentação
+
+9. Acrescentamos, então, chaves estrangeiras "pce_id" e "local_id" na tabela "Movimentacao", as relações bidirecionais:
+   - PCE<->Movimentacao
+   - Local<->Movimentacao
+   
+   ...e a propriedade "proposito" no modelo "Movimentacao"
+
+10. Alteramos os controladores e as funções de "Movimentação"
+
+11. Testamos as rotas que usam os controladores de Movimentacao, Recarga e MovimentacaoDocumento:
+    - CRUD DE MOVIMENTACAO DE INSUMO
+    - CRUD DE MOVIMENTACAO DE MUNICAO
+    - MOVIMENTAÇÃO PARA RECARGA
+
+
+
+

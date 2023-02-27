@@ -1,5 +1,6 @@
 const CRUDController = require('./crud-controller');
 const municaoDoEsportista = require('../models/funcoes/municao');
+const Estoque = require('../models/funcoes/estoque');
 
 class MunicaController extends CRUDController {
     static async listAll(req, res) {
@@ -85,7 +86,26 @@ class MunicaController extends CRUDController {
         } catch (error) {
             return res.status(500).json({ message: error.message }); 
         }       
-    }     
+    }   
+    
+    static async disponivel(req, res) {
+        const esportista = req.esportista; // vem do middleware
+        const { id } = req.params;
+        if(!esportista) {
+            return res.status(401).json({message : `${req.user.nome} não é um esportista`});
+        }    
+        try {
+            const item = await municaoDoEsportista.item(id, esportista.id);
+            if(!item) {
+                return res.status(404).json({ message : `Munição ID ${id} não encontrada` }); 
+            } else {
+                const infoEstoqueItem = await Estoque.municao(esportista.id, item);
+                return res.status(200).json(infoEstoqueItem);                
+            }            
+        } catch (error) {
+            return res.status(500).json({ message: error.message }); 
+        }         
+    }    
 }
 
 module.exports = MunicaController;

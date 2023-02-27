@@ -23,7 +23,10 @@ module.exports = {
       },
       cnpj: {
         type: Sequelize.STRING(20)
-      },      
+      },   
+      ie: {
+        type: Sequelize.STRING(20)
+      },          
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

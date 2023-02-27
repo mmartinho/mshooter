@@ -1,0 +1,28 @@
+*********************************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+Arquivo: Anotações de 18/01/2023 a 20/01/2023
+*********************************************
+
+1. Nas atividades anterioes, inserimos o modelo Insumo e Insumo Utilizado, o CRUD de Insumo, CRUD de Movimentação de Insumo e 
+   os Documentos 
+
+2. Nas atividades anterioes, criamos os repositórios git remotos "sdcard" e "github"
+
+3. Acrescentamos a relação do esportiva com o documento. Dessa forma, os documentos também ficam em "escopo" do esportista
+
+4. Dropamos o DB e executamos as migrações e seeds:
+   >npx sequelize-cli db:migrate 
+   >npx sequelize-cli db:seed:all
+
+5. Observamos que "Movimentação" serve tanto para o Insumo, quanto para a Munição. No caso da munição utilizada (movimentação do 
+   tipo utlização) temos que especificar o local e a arma (PCE). Então, temos uma outra referência um-para-um de 
+   "Movimentação" para "Munição Utilizada". Alteramos as migrations e os modelos espelhando esta nova situação
+
+6. Criamos uma rota, controlador e função para lançar de uma só vez a utilização de "Insumos", e gerar entrada de munição recarregada
+
+7. Criamos uma rota, controlador e função para listar utilização de Insumos de recarga de Munição, em uma data de movimentação ou todas 
+
+

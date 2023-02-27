@@ -1,39 +1,39 @@
 const { Router } = require('express');
 const MunicaoController = require('../controllers/municao-controller');
-const InsumoMovimentacaoController = require('../controllers/insumo-molvimentacao-controller');
 const AuthStrategies = require('../middleware/estrategias-passport');
 const AuthMiddleware = require('../middleware/auth');
+const PrecheckMiddleware = require('../middleware/precheck');
 
 const router = Router();
 
 /** ******************* CRUD DE MUNICAO *********************** */
 
-/** Lista paginada de todas as munições do Esportista */
+/** Lista paginada de todas as munições */
 router.get('/municao/paginada/:offset/:limit', 
     [AuthMiddleware.bearer], 
     MunicaoController.listAll);
-/** Uma Munição específica do Esportista */
+/** Uma Munição específica */
 router.get('/municao/:id', 
     [AuthMiddleware.bearer], 
     MunicaoController.singleObject);
-/** Cria um novo objeto de Munição de Esportista */
+/** Cria um novo objeto de Munição */
 router.post('/municao', 
-    [AuthMiddleware.bearer], 
+    [AuthMiddleware.bearer,PrecheckMiddleware.verificacaoBody], 
     MunicaoController.cria);
-/** Atualiza um objeto de Munição de Esportista específico */
+/** Atualiza um objeto de Munição específico */
 router.put('/municao/:id', 
-    [AuthMiddleware.bearer], 
+    [AuthMiddleware.bearer,PrecheckMiddleware.verificacaoBody], 
     MunicaoController.atualiza);
-/** Exclui um objeto de Munição de Esportista específica */
+/** Exclui um objeto de Munição específica */
 router.delete('/municao/:id', 
-    [AuthMiddleware.bearer], 
+    [AuthMiddleware.bearer,PrecheckMiddleware.verificacaoBody], 
     MunicaoController.exclui);
 
-/** *************************************** MOVIMENTACAO DE INSUMO ******************************************** */
-
-/** Lista paginada de todas as Movimentações de Insumos registradas pelo Esportista para Munição Específica */
-router.get('/municao/:municao_id/insumomovimentacao/paginada/:offset/:limit', 
+/** ******************* OUTRAS ROTAS DE MUNICAO **************** */
+         
+/** Saldo disponível de Insumo específico */
+router.get('/municao/:id/disponivel', 
     [AuthMiddleware.bearer], 
-    InsumoMovimentacaoController.lista); 
+    MunicaoController.disponivel);
 
 module.exports = router;

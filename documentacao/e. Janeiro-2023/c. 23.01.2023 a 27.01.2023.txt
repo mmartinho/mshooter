@@ -1,0 +1,28 @@
+*********************************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+Arquivo: Anotações de 23/01/2023 a 27/01/2023
+*********************************************
+
+1. Nas atividades anterioes, "movimentação" de "insumo" e "munição" passaram para uma mesma entidade "Movimentação"
+
+2. Nas atividades anteriores, criamos funcionalidade para lançar, em apenas uma requisição, a Movimentação 
+   (utilização) dos todos os 4 Insumos e a da recarga da Munição resultante
+
+3. Criamos a rota para exclusão das Movimentações de Insumos e da Munição recarregada
+
+4. Criamos as rotas, controladores e funções do CRUD para "Movimentação" de Munição e Insumos
+
+5. Criamos as rotas, controladores e funções do CRUD para o "Documento de Movimentação"
+
+6. Criamos a função Estoque.insumo()
+
+7. Criamos o seeder de Movimentação de Insumos (desmontagem, aquisição e descarte). Observamos que a movimentação com unidade 
+   de medida em gramas e grains não faz sentido. Dessa forma, a pólvora é considerada como uma unidade, e não é usada na 
+   movimentação de recarga da munição. Ao invés disso, a movimentação de insumo de pólvora é medida em unidade também. 
+   Removemos unidade de medida da movimentação.
+
+8. Criamos o seeder de Movimentação de Insumos para recarga
+

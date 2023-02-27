@@ -1,5 +1,6 @@
 const CRUDController = require('./crud-controller');
 const insumoDoEsportista = require('../models/funcoes/insumo');
+const Estoque = require('../models/funcoes/estoque');
 
 class InsumoController extends CRUDController {
     static async listAll(req, res) {
@@ -85,7 +86,26 @@ class InsumoController extends CRUDController {
         } catch (error) {
             return res.status(500).json({ message: error.message }); 
         }       
-    }     
+    }  
+    
+    static async disponivel(req, res) {
+        const esportista = req.esportista; // vem do middleware
+        const { id } = req.params;
+        if(!esportista) {
+            return res.status(401).json({message : `${req.user.nome} não é um esportista`});
+        }    
+        try {
+            const insumo = await insumoDoEsportista.item(id, esportista.id);
+            if(!insumo) {
+                return res.status(404).json({ message : `Insumo ID ${id} não encontrado` }); 
+            } else {
+                const infoEstoqueInsumo = await Estoque.insumo(esportista.id, insumo);
+                return res.status(200).json(infoEstoqueInsumo);                
+            }            
+        } catch (error) {
+            return res.status(500).json({ message: error.message }); 
+        }         
+    }
 }
 
 module.exports = InsumoController;

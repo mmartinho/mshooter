@@ -1,0 +1,19 @@
+p Ao Comandante da SFPC 12RM
+p 
+  | Eu, #{esportista_nome}, ID #{identificacao_numero} #{identificacao_nome}, #{registro_atividades} #{registro_nome} #{registro_numero}, 
+  | venho por meio deste documento, conforme recomenda Portaria número 136/2019 do COLOG, Art. 72, comunicar a aquisição do(s) 
+  | seguinte(s) material(is)/produto(s), constando seu(s) demonstrativo(s) de nota(s) fiscal(is) em anexo.
+
+ul 
+    each produto in produtos 
+        li= produto 
+
+p Conforme Decreto 9847/2019, § 3º, incisos I e II, tenho a informar que:
+p O(s) produto(s)/material(is) supramencionado(s) foi(ram) adquirido(s) na(s) empresa(s):
+
+ul 
+    each fornecedor in fornecedores
+        li= fornecedor
+ 
+p O(s) produto(s) supramencionado(s) será(rão) armazenado(s) no endereço:
+p #{esportista_endereco}

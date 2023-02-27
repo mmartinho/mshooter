@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Local.hasMany(models.MunicaoUtilizada, {as: 'MunicaoUtilizada', foreignKey: 'local_id'});
+      Local.hasMany(models.Movimentacao, {as: 'Movimentacao', foreignKey: 'local_id'});
       Local.belongsTo(models.Esportista, {as: 'Esportista', foreignKey: 'esportista_id'});
     }
   }
@@ -24,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
          return rawValue ? tipoLocal.toDescription(rawValue) : null;
       }
     },
-    cnpj: DataTypes.STRING
+    cnpj: DataTypes.STRING,
+    ie: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Local',

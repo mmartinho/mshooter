@@ -1,5 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
+const tipoPCE = require('./types/pce-tipo');
 
 module.exports = (sequelize, DataTypes) => {
   class Pce extends Model {
@@ -10,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Pce.hasMany(models.Compra, {as: 'Compra', foreignKey: 'pce_id'});
-      Pce.hasMany(models.MunicaoUtilizada, {as: 'MunicaoUtilizada', foreignKey: 'pce_id'});
+      Pce.hasMany(models.Movimentacao, {as: 'Movimentacao', foreignKey: 'pce_id'});
       Pce.belongsTo(models.Esportista, {as: 'Esportista', foreignKey: 'esportista_id'});
     }
   };
@@ -18,7 +19,13 @@ module.exports = (sequelize, DataTypes) => {
   Pce.init(
     {
       nome: DataTypes.STRING,
-      tipo: DataTypes.INTEGER,
+      tipo: {
+        type: DataTypes.INTEGER,
+        get() {
+           const rawValue = this.getDataValue('tipo');
+           return rawValue ? tipoPCE.toDescription(rawValue) : null;
+        }
+      },
       alias: DataTypes.STRING,
       sigma: DataTypes.STRING,
       nserie: DataTypes.STRING,

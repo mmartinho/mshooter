@@ -89,11 +89,10 @@ class Usuario {
      */
     static async atualizar(novosDados, id) {
         var affected = [];
-        var erro = null;
         if(Auxiliar.isEmpty(novosDados)) {
             throw new InvalidArgumentError(`Não foi enviada nenhuma informação para ser alterada de Usuário id ${id}`);
         }
-        await db.Usuario.update(novosDados, { where: { id } })
+        await db.Usuario.update(novosDados, { where: { id : Number(id) } })
             .then(result => { 
                 affected = result; 
             })
@@ -115,8 +114,7 @@ class Usuario {
      */
      static async excluir(id) {
         var affected = 0;
-        var erro = null;
-        await db.Usuario.destroy({ where: { id } })
+        await db.Usuario.destroy({ where: { id: Number(id) } })
             .then(result => {
                 affected = result;
             })
@@ -136,8 +134,7 @@ class Usuario {
      */
     static async verifica(id) {
         var affected = [];
-        var erro = null;
-        await db.Usuario.update({verificado: true}, { where: { id } })
+        await db.Usuario.update({verificado: true}, { where: { id: Number(id) } })
             .then(result => { 
                 affected = result; 
             })
@@ -145,7 +142,7 @@ class Usuario {
                 throw new Error(`Não foi possível verificar usuário id ${id}. ${error.message}`);
             });
         if(affected[0] == 1) {
-            const userVerified = await db.Usuario.findOne({ where: { id } });   
+            const userVerified = await db.Usuario.findOne({ where: { id: Number(id) } });   
             return userVerified;
         } else {
             throw new UserNotFoundError(`Usuário de id ${id} não foi encontrado`);

@@ -19,6 +19,14 @@ module.exports = {
       dt_registro: {
         type: Sequelize.DATEONLY
       },
+      atividades: {
+        type: Sequelize.STRING
+      }, 
+      tipo: {
+        allowNull: false,
+        type: Sequelize.TINYINT(1),
+        default: 2
+      },     
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

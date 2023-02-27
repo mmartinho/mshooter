@@ -22,7 +22,10 @@ class PCEController extends CRUDController{
         if(esportista) {
             try {
                 const item = await pceDoEsportista.item(id, esportista.id);
-                return res.status(200).json(item);
+                if(item)
+                    return res.status(200).json(item);
+                else 
+                    return res.status(404).json({message:`PCE ID ${id} não encontrado`});
             } catch (error) {
                 return res.status(500).json({ message: error.message }); 
             }            
@@ -53,10 +56,11 @@ class PCEController extends CRUDController{
         }
         try {
             const itemAtualizado = await pceDoEsportista.atualizaItem(id, esportista.id, novosDados);
-            if(!itemAtualizado) {
-                return res.status(404).json({message: `Pce ID ${id} pertencente ao Esportista '${esportista.nome}' não foi encontrado`});
+            if(itemAtualizado) {
+                return res.status(200).json(itemAtualizado);
+            } else {
+                return res.status(404).json({message: `PCE ID ${id} não foi encontrado`});
             }
-            return res.status(200).json(itemAtualizado);
         } catch (error) {
             return res.status(500).json({ message: error.message }); 
         }            
@@ -69,8 +73,11 @@ class PCEController extends CRUDController{
             return res.status(401).json({message : `${req.user.nome} não é um esportista`});
         }    
         try {
-            await pceDoEsportista.excluiItem(id, esportista.id);
-            return res.status(200).json({ message : `PCE ID ${id} pertencente ao Esportista '${esportista.nome}' foi excluído com sucesso`});
+            const excluiu = await pceDoEsportista.excluiItem(id, esportista.id);
+            if(excluiu) 
+                return res.status(200).json({ message : `PCE ID ${id} foi excluído com sucesso`});
+            else 
+                return res.status(404).json({message: `PCE ID ${id} não foi encontrado`}); 
         } catch (error) {
             return res.status(500).json({ message: error.message }); 
         }       

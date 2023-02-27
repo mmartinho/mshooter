@@ -1,0 +1,15 @@
+*********************************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+Arquivo: Anotações de 27/02/2023 a 03/03/2023
+*********************************************
+
+1. Nas atividades anteriores, construímos a rota, controlador, e funções para criação de um objeto de "Comunicação" sobre 1 ou mais 
+   objetos de "Movimentação"
+
+2. Construímos a rota, controlador, e funções para atualizar o protocolo do objeto de "Comunicação"
+
+3. 
+   

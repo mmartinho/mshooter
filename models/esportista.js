@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Esportista.hasMany(models.Registro, {as: 'Registro', foreignKey: 'esportista_id'});
-      Esportista.hasMany(models.MunicaoUtilizada, {as: 'MunicaoUtilizada', foreignKey: 'esportista_id'});
       Esportista.hasMany(models.Municao, {as: 'Municao', foreignKey: 'esportista_id'});
       Esportista.hasMany(models.Pce, {as: 'Pce', foreignKey: 'esportista_id'});
       Esportista.hasMany(models.Local, {as: 'Local', foreignKey: 'esportista_id'});
-      Esportista.hasMany(models.Habitualidade, {as: 'Habitualidade', foreignKey: 'esportista_id'});
+      Esportista.hasMany(models.Documento, {as: 'Documento', foreignKey: 'esportista_id'});
+      Esportista.hasMany(models.Movimentacao, {as: 'Movimentacao', foreignKey: 'esportista_id'});
       Esportista.hasOne(models.Usuario, {as: 'Usuario', foreignKey: 'esportista_id'});
     }
   }

@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Municao.belongsTo(models.Esportista, {as: 'Esportista', foreignKey: 'esportista_id'});
-      Municao.hasMany(models.MunicaoUtilizada, {as: 'MunicaoUtilizada', foreignKey: 'municao_id'});
+      Municao.hasMany(models.Movimentacao, {as: 'Movimentacao', foreignKey: 'municao_id'});
     }
   }
   Municao.init({

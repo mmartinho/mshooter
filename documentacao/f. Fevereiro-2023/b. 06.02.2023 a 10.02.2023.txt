@@ -1,0 +1,20 @@
+*********************************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+Arquivo: Anotações de 06/02/2023 a 10/02/2023
+*********************************************
+
+1. Nas atividades anteriores, criamos seeders de Movimentação de Munição recarregada e aquisição de Munições
+
+2. Nas atividades anteriores, alteramos as tabelas, modelos, funções de Movimentação 
+
+3. Decidimos alterar todas as rotas, controllers e funções de movimentações, orientando as rotas pelo "tipo" da Movimentação:
+   - /movimentacao/aquisicao (Munição e Insumo)
+   - /movimentacao/descarte (Munição e Insumo)
+   - /movimentacao/desmontagem (de Munição)
+   - /movimentacao/utilizacao (da Munição)
+   - /movimentacao/reutilizacao (de Insumo - projetil, espoleta e estojo) 
+
+4. 

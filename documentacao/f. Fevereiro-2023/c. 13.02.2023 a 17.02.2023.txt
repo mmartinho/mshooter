@@ -1,0 +1,20 @@
+*********************************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+Arquivo: Anotações de 13/02/2023 a 17/02/2023
+*********************************************
+
+1. Nas atividades anteriores, alteramos todas as rotas, controllers e funções de movimentações, orientando as rotas pelo "tipo" da Movimentação
+
+2. Criamos o seeder de movimentações de "utilização" e "descarte" de munição
+
+3. Finalizamos as funções de informações sobre o Estoque de Insumo e Munição
+
+4. Estamos construindo a criação de um objeto de "Comunicação" sobre 1 ou mais objetos de "Movimentação". Ao criar o objeto, o sistema deverá
+   enviar mensagem de e-mail inserido na Comunicação. Entretanto, surgiu a necessidade de obtermos dados de "Registro" e de "Identificação" do 
+   esportista
+   
+   4.1. Estamos construindo rotas, controladores, tipos e funções para inserir dados de "Registro" e "Identificação" do Esportista
+

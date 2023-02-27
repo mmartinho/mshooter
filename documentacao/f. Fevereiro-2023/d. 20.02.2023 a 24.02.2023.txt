@@ -1,0 +1,23 @@
+*********************************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+Arquivo: Anotações de 20/02/2023 a 24/02/2023
+*********************************************
+
+1. Nas atividades anteriores, estavamos contruindo um objeto de Comunicação que envia e-mail de mensagem formatada PUG informando a aquisição 
+   de Munições e/ou Insumos ao SFPC12, com as Nf-e
+
+2. Construimos as rotas, controladores, tipos e funções para dados de "Registro" e "Identificação" do Esportista 
+
+4. Construímos a rota, controlador, e funções para criação de um objeto de "Comunicação" sobre 1 ou mais objetos de "Movimentação". 
+   Ao criar o objeto de Comunicação, o sistema deverá enviar mensagem de e-mail informando os produtos adquiridos e suas quantidades, os dados 
+   da empresa de vendas, e os anexos dos documentos de aquisição (normalmente DANFE), os dados de CR, ID e Local de Guarda dos produtos do 
+   Esportista adquirinte
+
+5. Construímos a rota, controlador, e funções para atualizar objeto de "Comunicação"
+
+ 
+
+   
