@@ -1,4 +1,5 @@
 const db = require('../models');
+const resStatus = require('../shared/errors/res-status');
 
 /**
  * General Object handling
@@ -63,7 +64,7 @@ class CRUDController {
                 return res.status(200).json(all);
             }
         } catch (error) {
-            return res.status(500).json({ message: error.message }); 
+            return resStatus(error, res);
         }
     }
 
@@ -79,13 +80,12 @@ class CRUDController {
         const model = CRUDController.modelFromUrl(req.url);
         try {
             const one = await db[model].findOne({ where: { id: Number(id) } });
-            if(one) {
-                return res.status(200).json(one);
-            } else {
-                return res.status(404).json({ message: `${model} de ID ${id} não encontrado`});
-            }
+            if(!one) {
+                return res.status(404).json({message: `${model} de ID ${id} não encontrado`});
+            } 
+            return res.status(200).json(one);
         } catch (error) {
-            return res.status(500).json({ message: error.message }); 
+            return resStatus(error, res);
         }
     }    
 
@@ -103,7 +103,7 @@ class CRUDController {
             const one = await db[model].create(data);
             return res.status(200).json(one);
         } catch (error) {
-            return res.status(500).json({ message: error.message });
+            return resStatus(error, res);
         }
     }    
 
@@ -120,16 +120,15 @@ class CRUDController {
         const model = CRUDController.modelFromUrl(req.url);
         try {
             // update
-            await db[model].update(newData, { where: { id: Number(id) } });
+            await db[model].update(newData, {where: {id: Number(id)}});
             // search again
-            const updatedOne = await db[model].findOne({ where: { id : Number(id) } });
-            if(updatedOne) {           
-                return res.status(200).json(updatedOne);
-            } else {
-                return res.status(404).json({ message: `${model} de ID ${id} não encontrado`});
-            }
+            const updatedOne = await db[model].findOne({where: {id : Number(id)}});
+            if(!updatedOne) {           
+                return res.status(404).json({message: `${model} de ID ${id} não encontrado`});
+            } 
+            return res.status(200).json(updatedOne);
         } catch (error) {
-            return res.status(500).json({ message: error.message });
+            return resStatus(error, res);
         }       
     }    
 
@@ -146,13 +145,12 @@ class CRUDController {
         var affected=0;
         try {
             await db[model].destroy({where:{id: Number(id)}}).then(result => {affected = result});
-            if(affected > 0) {
-                return res.status(200).json({message:`${model} id ${id} deletado(a)`});
-            } else {
+            if(affected == 0) {
                 return res.status(404).json({message:`${model} id ${id} não encontrado(a)`});
-            }
+            } 
+            return res.status(200).json({message:`${model} id ${id} deletado(a)`});
         } catch (error) {
-            return res.status(500).json(error);
+            return resStatus(error, res);
         }
     }    
 }

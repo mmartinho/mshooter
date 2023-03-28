@@ -24,7 +24,7 @@ class Apostilamento {
         }  
         const one = await db.Apostilamento.findOne(criteria);
         return one;    
-    }
+    }    
 
     /**
      * @param integer esportista_id
@@ -84,7 +84,7 @@ class Apostilamento {
      * @param number pce_id 
      * @param number documento_id 
      * @param string dt_apostilamento 
-     * @throws Error | PceNotFoundError
+     * @throws Error
      * @returns Apostilamento | null
      */
     static async criar(esportista_id, pce_id, documento_id, dt_apostilamento) {

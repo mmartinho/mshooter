@@ -1,17 +1,15 @@
-const tipoInsumo = Object.freeze({
-  polvora: {description: 'Pólvora', value: 2},
-  espoleta : {description: 'Espoleta', value: 3},
-  estojo : {description: 'Estojo', value : 4},
-  projetil : {description: 'Projétil', value : 5},
-  toDescription : (value) => {
-    switch (value) {
-      case tipoInsumo.polvora.value : return tipoInsumo.polvora.description;
-      case tipoInsumo.espoleta.value : return tipoInsumo.espoleta.description;
-      case tipoInsumo.estojo.value : return tipoInsumo.estojo.description;
-      case tipoInsumo.projetil.value : return tipoInsumo.projetil.description;
-      default: return '';
-    }    
+const Todos = require('./todos');
+
+class TipoInsumo extends Todos {
+  constructor() {
+    super();
+    this.polvora = {description: 'Pólvora', value: 2};
+    this.espoleta = {description: 'Espoleta', value: 3};
+    this.estojo = {description: 'Estojo', value : 4};
+    this.projetil = {description: 'Projétil', value : 5};     
   }
-}); 
+}
+
+const tipoInsumo = Object.freeze(new TipoInsumo());
 
 module.exports = tipoInsumo;

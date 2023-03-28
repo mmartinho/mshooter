@@ -17,4 +17,3 @@ Arquivo: Anotações de 06/02/2023 a 10/02/2023
    - /movimentacao/utilizacao (da Munição)
    - /movimentacao/reutilizacao (de Insumo - projetil, espoleta e estojo) 
 
-4. 

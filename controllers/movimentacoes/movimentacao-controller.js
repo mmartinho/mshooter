@@ -1,5 +1,7 @@
 const CRUDController = require('../crud-controller');
 const Movimentacao = require('../../models/funcoes/movimentacao');
+const tipoMovimentacao = require('../../models/types/movimentacao-tipo');
+const tipoProposito = require('../../models/types/proposito-tipo');
 
 class MovimentacaoController extends CRUDController {
     
@@ -115,7 +117,25 @@ class MovimentacaoController extends CRUDController {
         } catch(error) {
             return res.status(500).json({message: error.message});
         }        
-    }   
+    } 
+    
+    static async tipos(req, res) {   
+        try {
+            const lista = tipoMovimentacao.lista();
+            return res.status(200).json(lista);                        
+        } catch (error) {
+            return resStatus(error, res); 
+        }         
+    }
+    
+    static async propositos(req, res) { 
+        try {
+            const lista = tipoProposito.lista();
+            return res.status(200).json(lista);                        
+        } catch (error) {
+            return resStatus(error, res); 
+        }         
+    }    
        
 }
 

@@ -2,6 +2,27 @@ const CRUDController = require('./crud-controller');
 const Documento = require('../models/funcoes/documento');
 const Compra = require('../models/funcoes/compra');
 
+const resStatus = require('../shared/errors/res-status');
+const ObjetoNaoEncontradoError = require('../shared/errors/objeto-nao-encontrado');
+
+/**
+ * @param Esportista esportista 
+ * @param integer pce_id 
+ * @param integer documento_id 
+ * @returns Compra
+ * @throws Error
+ */
+async function verificaCompraExiste(esportista, pce_id, documento_id) {
+    const compra = await Compra.busca(esportista.id, pce_id, documento_id);
+    if(!compra) {
+        throw new ObjetoNaoEncontradoError (
+            `Registro de compra feita pelo esportista ${esportista.nome} ` +
+            `do PCE ID ${pce_id} com documento ID ${documento_id} não existe`
+        );
+    }
+    return compra;
+}
+
 class DocumentoCompraController extends CRUDController {
     static async cria(req, res) {
         try {
@@ -15,27 +36,17 @@ class DocumentoCompraController extends CRUDController {
             if(!(nome && numero)) {
                 return res.status(400).json({message: 'Nome e número são campos requeridos' });
             } 
-            if(await Documento.existe(esportista.id, numero)) {
-                return res.status(409).json({message: `Documento número ${numero} já existe`});
-            }
             if(!req.files || Object.keys(req.files).length === 0) { 
                 return res.status(400).json({message: 'Nenhum arquivo foi enviado'});
             }
             arquivo = req.files.arquivo;            
             const documentoCreated = await Documento.criar(esportista.id, nome, descricao, numero, dt_expedicao, dt_validade, arquivo);             
-            if(await Compra.existe(esportista.id, pce_id, documentoCreated.id)) {
-                return res.status(409).json({
-                    message: 
-                        `Registro de compra feita pelo esportista ${esportista.nome} ` +
-                        `do PCE id ${pce_id} com documento ${documentoCreated.nome} já existe`
-                });
-            }
             const compraCreated = await Compra.criar(esportista.id, pce_id, documentoCreated.id, documentoCreated.dt_expedicao); 
             const pce = await compraCreated.getPce();
             const documento = await compraCreated.getDocumentoSemConteudo();
             return res.status(201).json({id: compraCreated.id, dt_compra: compraCreated.dt_compra, pce, documento});
         } catch (error) {
-            return res.status(500).json( {message: error.message});
+            return resStatus(error, res);
         }
     } 
 
@@ -48,26 +59,18 @@ class DocumentoCompraController extends CRUDController {
             if(!esportista.id) {
                 return res.status(409).json({message : `Usuário logado ${req.user.nome} não é um esportista`});
             }            
-            const compra = await Compra.busca(esportista.id, pce_id, documento_id);
-            if(!compra) {
-                return res.status(404).json({
-                    message: 
-                        `Registro de compra feita pelo esportista ${esportista.nome} ` +
-                        `do PCE ID ${pce_id} com documento ID ${documento_id} não existe`
-                });
-            }
+            const compra = await verificaCompraExiste(esportista.id, pce_id, documento_id);
             if(req.files && Object.keys(req.files).length > 0) { 
                 arquivo = req.files.arquivo; 
             }
             const documento = await Documento.atualizar(esportista.id, compra.documento_id, novosDados, arquivo);
-            if(documento) {
-                const pce = await compra.getPce();
-                return res.status(200).json({id: compra.id, dt_compra: compra.dt_compra, pce, documento});    
-            } else {
+            if(!documento) {
                 return res.status(404).json({message: `Documento ID ${documento_id} não encontrado`});    
-            }
+            } 
+            const pce = await compra.getPce();
+            return res.status(200).json({id: compra.id, dt_compra: compra.dt_compra, pce, documento});
         } catch (error) {
-            return res.status(500).json( {message: error.message});
+            return resStatus(error, res);
         }
     }    
 
@@ -81,7 +84,7 @@ class DocumentoCompraController extends CRUDController {
             const documentosCompra = await Compra.lista(esportista.id, pce_id, limit, offset);
             return res.status(200).json(documentosCompra);
         } catch (error) {
-            return res.status(500).json( {message: error.message});
+            return resStatus(error, res);
         }
     } 
     
@@ -92,23 +95,15 @@ class DocumentoCompraController extends CRUDController {
             if(!esportista.id) {
                 return res.status(409).json({message : `Usuário logado ${req.user.nome} não é um esportista`});
             }          
-            const compra = await Compra.busca(esportista.id, pce_id, documento_id);
-            if(!compra) {
-                return res.status(404).json({
-                    message: 
-                        `Registro de compra feita pelo esportista ${esportista.nome} ` +
-                        `do PCE ID ${pce_id} com documento ID ${documento_id} não existe`
-                });
-            }
+            const compra = await verificaCompraExiste(esportista.id, pce_id, documento_id);
             const documento = await Documento.buscaPorId(esportista.id, compra.documento_id);
-            if(documento) {
-                const pce = await compra.getPce();
-                return res.status(200).json({id: compra.id, dt_compra: compra.dt_compra, pce, documento});    
-            } else {
-                return res.status(404).json({message: `Documento ID ${documento_id} não encontrado`});    
-            }
+            if(!documento) {
+                return res.status(404).json({message: `Documento ID ${documento_id} não encontrado`});        
+            }                 
+            const pce = await compra.getPce();
+            return res.status(200).json({id: compra.id, dt_compra: compra.dt_compra, pce, documento});
         } catch (error) {
-            return res.status(500).json( {message: error.message});
+            return resStatus(error, res);
         }
     }  
     
@@ -119,21 +114,15 @@ class DocumentoCompraController extends CRUDController {
             if(!esportista.id) {
                 return res.status(409).json({message : `Usuário logado ${req.user.nome} não é um esportista`});
             }           
-            const compra = await Compra.busca(esportista.id, pce_id, documento_id);
-            if(!compra) {
-                return res.status(404).json({
-                    message: 
-                        `Registro de compra feita pelo esportista ${esportista.nome} ` +
-                        `do PCE ID ${pce_id} com documento ID ${documento_id} não existe`
-                });
-            }
+            const compra = await verificaCompraExiste(esportista.id, pce_id, documento_id);
             const excluiu = await Documento.excluir(esportista.id, compra.documento_id);
-            if(excluiu)
+            if(excluiu) {
                 return res.status(200).json({message: `Documento de compra ID ${documento_id} excluído com sucesso`});
-            else 
+            } else {
                 return res.status(404).json({message: `Documento de compra ID ${documento_id} não encontrado`});
+            }
         } catch (error) {
-            return res.status(500).json( {message: error.message});
+            return resStatus(error, res);
         }
     }    
 
@@ -144,14 +133,7 @@ class DocumentoCompraController extends CRUDController {
             if(!esportista.id) {
                 return res.status(409).json({message : `Usuário logado ${req.user.nome} não é um esportista`});
             }           
-            const compra = await Compra.busca(esportista.id, pce_id, documento_id);
-            if(!compra) {
-                return res.status(404).json({
-                    message: 
-                        `Registro de compra feita pelo esportista ${esportista.nome} ` +
-                        `do PCE ID ${pce_id} com documento ID ${documento_id} não existe`
-                });
-            }    
+            const compra = await verificaCompraExiste(esportista.id, pce_id, documento_id);   
             let documento = await Documento.buscaPorId(esportista.id, compra.documento_id, true);
             if(documento) { 
                 return res.status(200).download(documento.arquivo, documento.arquivoNome, (error) => {
@@ -166,7 +148,7 @@ class DocumentoCompraController extends CRUDController {
                 return res.status(404).json({ message: `Documento ID ${documento_id} não encontrado` });
             }                    
         } catch (error) {
-            return res.status(500).json( {message: error.message});
+            return resStatus(error, res);
         }
     }   
 }

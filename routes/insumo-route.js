@@ -38,4 +38,9 @@ router.get('/insumo/:id/disponivel',
     [AuthMiddleware.bearer], 
     InsumoController.disponivel);
 
+/** Tipos enumerados de insumo */
+router.get('/insumo/tipos/tipo', 
+    [AuthMiddleware.bearer], 
+    InsumoController.tipos);
+
 module.exports = router;

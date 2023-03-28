@@ -1,5 +1,6 @@
 const CRUDController = require('./crud-controller');
 const pceDoEsportista = require('../models/funcoes/pce');
+const tipoPCE = require('../models/types/pce-tipo');
 
 class PCEController extends CRUDController{
     static async listAll(req, res) {
@@ -81,7 +82,16 @@ class PCEController extends CRUDController{
         } catch (error) {
             return res.status(500).json({ message: error.message }); 
         }       
-    }       
+    }  
+    
+    static async tipos(req, res) {   
+        try {
+            const lista = tipoPCE.lista();
+            return res.status(200).json(lista);                        
+        } catch (error) {
+            return resStatus(error, res); 
+        }         
+    }    
 
 }
 

@@ -3,6 +3,68 @@ const Documento = require('../models/funcoes/documento');
 const Registro = require('../models/funcoes/registro');
 const tipoRegistro = require('../models/types/registro-tipo');
 
+const resStatus = require('../shared/errors/res-status');
+const ObjetoExistenteError = require('../shared/errors/objeto-existente');
+
+/**
+ * @param Esportista esportista 
+ * @param string numero 
+ * @param integer tipo 
+ * @param string dt_validade 
+ */
+async function verificaRegistroJaCadastrado(esportista, numero, tipo, dt_validade) {
+    if(await Registro.existe(esportista.id, numero, tipo, dt_validade)) {
+        throw new ObjetoExistenteError(
+            `Registro de ${tipoRegistro.toDescription(Number(tipo))} número ${numero} `+
+            `com data de validade ${dt_validade} já existe`
+        );  
+    }
+}
+
+/**
+ * @param string nome 
+ * @param string descricao 
+ * @param string numero 
+ * @param string dt_expedicao 
+ * @param string dt_validade 
+ * @returns {*}
+ */
+function selecionarDadosDocumento(nome=null, descricao=null, numero=null, dt_expedicao=null, dt_validade=null) {
+    var dados = {};
+    if(nome) {dados.nome = nome;}
+    if(descricao) {dados.descricao = descricao;}
+    if(numero) {dados.numero = numero;}
+    if(dt_expedicao) {dados.dt_expedicao = dt_expedicao;}
+    if(dt_validade) {dados.dt_validade = dt_validade;}
+    return dados;    
+}
+
+/**
+ * @param {*} files 
+ * @returns {*}
+ */
+function selecionarArquivo(files) {
+    let arquivo=null;
+    if(files && Object.keys(files).length > 0) {
+        arquivo = files.arquivo;
+    }
+    return arquivo;
+}
+
+/**
+ * @param string dt_registro 
+ * @param string atividades 
+ * @param integer tipo 
+ * @returns 
+ */
+function selecionarDadosRegistro(dt_registro=null, atividades=null, tipo=null) {
+    var dados = {};
+    if(dt_registro) {dados.dt_registro = dt_registro;}
+    if(atividades) {dados.atividades = atividades;}
+    if(tipo) {dados.tipo = tipo;}
+    return dados;
+}
+
 class DocumentoRegistroController extends CRUDController {
     static async cria(req, res) {
         try {
@@ -24,20 +86,14 @@ class DocumentoRegistroController extends CRUDController {
             if(!req.files || Object.keys(req.files).length === 0) { 
                 return res.status(400).json({message: 'Nenhum arquivo foi enviado'});
             }
-            if(await Registro.existe(esportista.id, numero, tipo, dt_validade)) {
-                return res.status(409).json({
-                    message: 
-                        `Registro de ${tipoRegistro.toDescription(Number(tipo))} número ${numero} `+
-                        `com data de validade ${dt_validade} já existe`
-                });  
-            }
+            await verificaRegistroJaCadastrado(esportista, numero, tipo, dt_validade);
             arquivo = req.files.arquivo;  
             const documentoCreated = await Documento.criar(esportista.id, nome, descricao, numero, dt_expedicao, dt_validade, arquivo);             
             const registroCreated = await Registro.criar(esportista.id, documentoCreated.id, dt_registro, atividades, tipo); 
             const documento = await registroCreated.getDocumentoSemConteudo();
             return res.status(201).json({registroCreated, documento});
         } catch (error) {
-            return res.status(500).json( {message: error.message});
+            return resStatus(error, res);
         }
     } 
 
@@ -47,29 +103,24 @@ class DocumentoRegistroController extends CRUDController {
             const { documento_id } = req.params;
             const { dt_registro, atividades, tipo } = req.body;
             const { nome, descricao, numero, dt_expedicao, dt_validade } = req.body;
-            let dadosDocumento = {}; let dadosRegistro = {};
-            let arquivo;
+            let dadosRegistro = {}; let dadosDocumento = {}; let arquivo;
             if(!esportista.id) {
                 return res.status(409).json({message : `Usuário logado ${req.user.nome} não é um esportista`});
             }            
-            if(req.files && Object.keys(req.files).length > 0) {arquivo = req.files.arquivo;}
-            if(nome) {dadosDocumento.nome = nome;}
-            if(descricao) {dadosDocumento.descricao = descricao;}
-            if(numero) {dadosDocumento.numero = numero;}
-            if(dt_expedicao) {dadosDocumento.dt_expedicao = dt_expedicao;}
-            if(dt_validade) {dadosDocumento.dt_validade = dt_validade;}
+            arquivo = selecionarArquivo(req.files);
+            dadosDocumento = selecionarDadosDocumento(nome, descricao, numero, dt_expedicao, dt_validade);
             const documento = await Documento.atualizar(esportista.id, documento_id, dadosDocumento, arquivo);
-            if(documento) {
-                if(dt_registro) {dadosRegistro.dt_registro = dt_registro;}
-                if(atividades) {dadosRegistro.atividades = atividades;}
-                if(tipo) {dadosRegistro.tipo = tipo;}
-                const registro = await Registro.atualizar(esportista.id, documento_id, dadosRegistro);
-                return res.status(200).json({registro, documento});    
-            } else {
+            if(!documento) {
                 return res.status(404).json({message: `Documento ID ${documento_id} não encontrado`});    
+            } 
+            dadosRegistro = selecionarDadosRegistro(dt_registro, atividades, tipo);
+            const registro = await Registro.atualizar(esportista.id, documento_id, dadosRegistro);
+            if(!registro) {
+                return res.status(404).json({message: `Registro associado ao documento ID ${documento_id} não encontrado`}); 
             }
+            return res.status(200).json({registro, documento});            
         } catch (error) {
-            return res.status(500).json( {message: error.message});
+            return resStatus(error, res);
         }
     }    
 
@@ -83,7 +134,7 @@ class DocumentoRegistroController extends CRUDController {
             const documentosRegistro = await Registro.lista(esportista.id, limit, offset);
             return res.status(200).json(documentosRegistro);
         } catch (error) {
-            return res.status(500).json( {message: error.message});
+            return resStatus(error, res);
         }
     } 
     
@@ -95,13 +146,12 @@ class DocumentoRegistroController extends CRUDController {
                 return res.status(409).json({message : `Usuário logado ${req.user.nome} não é um esportista`});
             } 
             const registro = await Registro.buscaPorId(esportista.id, documento_id, false);         
-            if(registro) {
-                return res.status(200).json(registro);    
-            } else {
+            if(!registro) {
                 return res.status(404).json({message: `Documento de Registro ID ${documento_id} não encontrado`});    
-            }
+            } 
+            return res.status(200).json(registro);
         } catch (error) {
-            return res.status(500).json( {message: error.message});
+            return resStatus(error, res);
         }
     }  
     
@@ -113,12 +163,13 @@ class DocumentoRegistroController extends CRUDController {
                 return res.status(409).json({message : `Usuário logado ${req.user.nome} não é um esportista`});
             }           
             const excluiu = await Documento.excluir(esportista.id, documento_id);
-            if(excluiu)
+            if(excluiu) {
                 return res.status(200).json({message: `Documento de Registro ID ${documento_id} excluído com sucesso`});
-            else 
+            } else {
                 return res.status(404).json({message: `Documento de Registro ID ${documento_id} não encontrado`});
+            }
         } catch (error) {
-            return res.status(500).json( {message: error.message});
+            return resStatus(error, res);
         }
     }    
 
@@ -140,12 +191,21 @@ class DocumentoRegistroController extends CRUDController {
                     }
                 }); 
             } else {
-                return res.status(404).json({ message: `Documento de Registro ID ${documento_id} não encontrado` });
+                return res.status(404).json({message: `Documento de Registro ID ${documento_id} não encontrado`});
             }                    
         } catch (error) {
-            return res.status(500).json( {message: error.message});
+            return resStatus(error, res);
         }
-    }   
+    }
+    
+    static async tipos(req, res) {   
+        try {
+            const lista = tipoRegistro.lista()
+            return res.status(200).json(lista);                        
+        } catch (error) {
+            return resStatus(error, res); 
+        }         
+    }      
 }
 
 module.exports = DocumentoRegistroController;

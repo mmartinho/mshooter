@@ -29,5 +29,12 @@ router.put('/local/:id',
 router.delete('/local/:id', 
     [AuthMiddleware.bearer,PrecheckMiddleware.verificacaoBody], 
     LocalController.exclui);
+
+/** ******************* OUTRAS ROTAS DE LOCAL **************** */ 
+
+/** Tipos enumerados de local */
+router.get('/local/tipos/tipo', 
+    [AuthMiddleware.bearer], 
+    LocalController.tipos);
    
 module.exports = router;

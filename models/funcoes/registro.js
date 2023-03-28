@@ -2,6 +2,7 @@ const db = require('../../models');
 const Documento = require('./documento');
 
 class Registro {
+
     /**
      * @param integer esportista_id 
      * @param boolean temp

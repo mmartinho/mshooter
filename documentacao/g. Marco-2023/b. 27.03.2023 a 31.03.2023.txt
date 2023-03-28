@@ -1,0 +1,32 @@
+*********************************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+Arquivo: Anotações de 27/03/2023 a 31/03/2023
+*********************************************
+
+1. Nas atividades anteriores, construímos a rota, controlador, e funções para atualizar o 
+   protocolo do objeto de "Comunicação"
+
+2. Mudamos o controle de exceção do sistema para utilizar os erros customizados em 
+   @see shared\errors
+   Isso implicou em mudar todos os blocos try/catch dos controladores do sistema 
+
+3. Refatoramos todos os tipos enumerados, utilizando herança de classe para evitar duplicar código
+   @see models\types\todos.js
+   @see models\types\insumo-tipo.js
+   @see models\types\local-tipo.js
+   @see models\types\movimentacao-tipo.js
+   @see models\types\proposito-tipo.js
+   @see models\types\pce-tipo.js
+   @see models\types\registro-tipo.js
+   
+4. Criamos 6 novas rotas/controladores para listar os tipos enumerados em arrays de objetos com as propriedades valor/descrição
+   @see routes\movimentacoes\movimentacao-route.js
+   @see routes\esportista-route.js
+   @see routes\esportista-route.js
+   @see routes\insumo-route.js
+   @see routes\local-route.js
+   @see routes\pce-route.js
+

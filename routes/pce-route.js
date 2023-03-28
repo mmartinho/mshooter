@@ -32,6 +32,13 @@ router.delete('/pce/:id',
     [AuthMiddleware.bearer,PrecheckMiddleware.verificacaoBody], 
     PCEController.exclui);
 
+/** ************* OUTRAS ROTAS DE PCE *********** */ 
+
+/** Tipos enumerados de PCE */
+router.get('/pce/tipos/tipo', 
+    [AuthMiddleware.bearer], 
+    PCEController.tipos);    
+
 /** ***************** DOCUMENTO DE COMPRA DO PCE ******************** */
 
 /** Cria Documento de Compra de PCE */
@@ -85,5 +92,5 @@ router.delete('/pce/:pce_id/apostilamento/:documento_id',
 router.get('/pce/:pce_id/apostilamento/:documento_id/download', 
     [AuthMiddleware.bearer], 
     DocumentoApostilamentoController.download);    
-
+  
 module.exports = router;

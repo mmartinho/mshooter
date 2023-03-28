@@ -44,6 +44,18 @@ router.get('/movimentacao/:movimentacao_id/insumo/:insumo_id/',
 /** Exclui Movimentação do Insumo */
 router.delete('/movimentacao/:movimentacao_id/insumo/:insumo_id', 
     [AuthMiddleware.bearer,PrecheckMiddleware.verificacaoBody], 
-    MovimentacaoController.exclui);    
+    MovimentacaoController.exclui);  
+    
+/** ************* OUTRAS ROTAS DE MOVIMENTACAO *********** */ 
+
+/** Tipos enumerados de Movimentação */
+router.get('/movimentacao/tipos/tipo', 
+    [AuthMiddleware.bearer], 
+    MovimentacaoController.tipos);
+
+/** Tipos enumerados de propósitos de Movimentação */
+router.get('/movimentacao/tipos/proposito', 
+    [AuthMiddleware.bearer], 
+    MovimentacaoController.propositos);    
 
 module.exports = router; 

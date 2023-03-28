@@ -2,6 +2,9 @@ const CRUDController = require('./crud-controller');
 const insumoDoEsportista = require('../models/funcoes/insumo');
 const Estoque = require('../models/funcoes/estoque');
 
+const resStatus = require('../shared/errors/res-status');
+const tipoInsumo = require('../models/types/insumo-tipo');
+
 class InsumoController extends CRUDController {
     static async listAll(req, res) {
         const esportista = req.esportista; // vem do middleware
@@ -11,7 +14,7 @@ class InsumoController extends CRUDController {
                 const lista = await insumoDoEsportista.lista(esportista.id, limit, offset);
                 return res.status(200).json(lista);
             } catch (error) {
-                return res.status(500).json({ message: error.message }); 
+                return resStatus(error, res);
             }            
         } 
         return super.listAll(req, res); // se adm   
@@ -28,7 +31,7 @@ class InsumoController extends CRUDController {
                 }
                 return res.status(200).json(item);
             } catch (error) {
-                return res.status(500).json({ message: error.message }); 
+                return resStatus(error, res); 
             }            
         } 
         return super.singleObject(req, res);  // se adm       
@@ -48,7 +51,7 @@ class InsumoController extends CRUDController {
             const itemCriado = await insumoDoEsportista.criaItem(esportista.id, dados);
             return res.status(201).json(itemCriado);
         } catch (error) {
-            return res.status(500).json({ message: error.message }); 
+            return resStatus(error, res); 
         }
     }  
 
@@ -66,7 +69,7 @@ class InsumoController extends CRUDController {
             }
             return res.status(200).json(itemAtualizado);
         } catch (error) {
-            return res.status(500).json({ message: error.message }); 
+            return resStatus(error, res); 
         }
     }
 
@@ -84,7 +87,7 @@ class InsumoController extends CRUDController {
                 return res.status(404).json({ message : `Insumo ID ${id} não foi encontrado`});
             }
         } catch (error) {
-            return res.status(500).json({ message: error.message }); 
+            return resStatus(error, res); 
         }       
     }  
     
@@ -97,15 +100,23 @@ class InsumoController extends CRUDController {
         try {
             const insumo = await insumoDoEsportista.item(id, esportista.id);
             if(!insumo) {
-                return res.status(404).json({ message : `Insumo ID ${id} não encontrado` }); 
-            } else {
-                const infoEstoqueInsumo = await Estoque.insumo(esportista.id, insumo);
-                return res.status(200).json(infoEstoqueInsumo);                
-            }            
+                return res.status(404).json({message : `Insumo ID ${id} não encontrado`}); 
+            } 
+            const infoEstoqueInsumo = await Estoque.insumo(esportista.id, insumo);
+            return res.status(200).json(infoEstoqueInsumo);                        
         } catch (error) {
-            return res.status(500).json({ message: error.message }); 
+            return resStatus(error, res); 
         }         
     }
+
+    static async tipos(req, res) {  
+        try {
+            const lista = tipoInsumo.lista();
+            return res.status(200).json(lista);                        
+        } catch (error) {
+            return resStatus(error, res); 
+        }         
+    }    
 }
 
 module.exports = InsumoController;

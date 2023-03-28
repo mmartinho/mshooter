@@ -1,6 +1,8 @@
 const db = require('../../models');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
+const ObjetoNaoEncontradoError = require('../../shared/errors/objeto-nao-encontrado');
+const ObjetoExistenteError = require('../../shared/errors/objeto-existente');
 
 class Documento {
     /**
@@ -105,6 +107,7 @@ class Documento {
 
     /**
      * @param integer esportista_id 
+     * @param integer id
      * @param string dt_expedicao 
      * @param string dt_validade 
      * @param string nome 
@@ -162,6 +165,9 @@ class Documento {
      */
     static async criar(esportista_id, nome, descricao, numero, dt_expedicao, dt_validade, arquivo=null) {
         var objectCreated = null;
+        if(await Documento.buscaPorCampos(esportista_id, null, null, null, nome, numero, false)) {
+            throw new ObjetoExistenteError(`Documento ${nome}, número ${numero} já existe`);
+        }
         await db.Documento
             .create({
                 esportista_id: Number(esportista_id),
@@ -215,7 +221,7 @@ class Documento {
                     Documento.apagaArquivoTemporario(arquivo.tempFilePath); 
                 } 
             })
-            .catch( error => {
+            .catch(error => {
                 throw new Error(`Não foi possível atualizar Documento id ${id}. ${error.message}`);
             });
         // search again
@@ -223,7 +229,7 @@ class Documento {
             .scope('semConteudo')
             .findOne(criteria)
             .catch(error => {
-                throw new Error(`Não foi possível encontrar o Documento id ${id} atualizado. ${error.message}`);
+                throw new ObjetoNaoEncontradoError(`Não foi possível encontrar o Documento id ${id} atualizado. ${error.message}`);
             }); 
         return updatedOne;        
     }

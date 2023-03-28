@@ -1,15 +1,14 @@
-const tipoPCE = Object.freeze({
-  pistola: {description: 'Pistola', value: 2},
-  carabina : {description: 'Carabina', value: 3},
-  outro : {description: 'Outro', value : 4},
-  toDescription : (value) => {
-    switch (value) {
-      case tipoPCE.pistola.value : return tipoPCE.pistola.description;
-      case tipoPCE.carabina.value : return tipoPCE.carabina.description;
-      case tipoPCE.outro.value : return tipoPCE.outro.description;
-      default: return '';
-    }    
-  }
-}); 
+const Todos = require('./todos');
 
+class TipoPCE extends Todos {
+  constructor() {
+    super();
+    this.pistola = {description: 'Pistola', value: 2};
+    this.carabina = {description: 'Carabina', value: 3};
+    this.outro = {description: 'Outro', value : 4}; 
+  }
+}
+
+const tipoPCE = Object.freeze(new TipoPCE()); 
+  
 module.exports = tipoPCE;

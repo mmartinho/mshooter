@@ -53,6 +53,13 @@ router.get('/esportista/registro/:documento_id/download',
 /** Download do arquivo do Documento de Registro de Esportista */
 router.delete('/esportista/registro/:documento_id', 
     [AuthMiddleware.bearer], 
-    DocumentoRegistroController.exclui);      
+    DocumentoRegistroController.exclui);  
+    
+/** ************* OUTRAS ROTAS DE ESPORTISTA *********** */ 
+
+/** Tipos enumerados de tipos de documento de registro de esportista */
+router.get('/esportista/registro/tipos/tipo', 
+    [AuthMiddleware.bearer], 
+    DocumentoRegistroController.tipos);      
 
 module.exports = router;

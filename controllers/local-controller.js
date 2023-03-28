@@ -1,5 +1,6 @@
 const CRUDController = require('./crud-controller');
 const localDoEsportista = require('../models/funcoes/local');
+const tipoLocal = require('../models/types/local-tipo');
 
 class LocalController extends CRUDController{
     static async listAll(req, res) {
@@ -79,6 +80,14 @@ class LocalController extends CRUDController{
         }       
     }  
     
+    static async tipos(req, res) {   
+        try {
+            const lista = tipoLocal.lista();
+            return res.status(200).json(lista);                        
+        } catch (error) {
+            return resStatus(error, res); 
+        }         
+    }    
 }
 
 module.exports = LocalController;

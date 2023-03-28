@@ -5,10 +5,15 @@ const Documento = require('../models/funcoes/documento');
 const Registro = require('../models/funcoes/registro');
 const Movimentacao = require('../models/funcoes/movimentacao');
 const Attachment = require('../models/classes/attachment');
+
 const tipoMovimentacao = require('../models/types/movimentacao-tipo');
 const tipoRegistro = require('../models/types/registro-tipo');
 const tipoLocal = require('../models/types/local-tipo');
 const localDoEsportista = require('../models/funcoes/local');
+
+const resStatus = require('../shared/errors/res-status');
+const ListaVaziaError = require('../shared/errors/lista-vazia');
+const ObjetoNaoEncontradoError = require('../shared/errors/objeto-nao-encontrado');
 
 /**
  * Lista dos produtos adquiridos em "dt_movimentacao"
@@ -17,6 +22,7 @@ const localDoEsportista = require('../models/funcoes/local');
  * @param string dt_movimentacao
  * @param integer comunicacao_id
  * @returns []
+ * @throws Error
  */
 async function produtosAdquiridos(esportista_id, dt_movimentacao) {
     let produtos=[]; var produto=''; var insumo=null; var municao=null;
@@ -40,6 +46,9 @@ async function produtosAdquiridos(esportista_id, dt_movimentacao) {
             produtos.push(produto); 
         }      
     }
+    if(produtos.length == 0 ) {
+       throw new ListaVaziaError(`Não existem produtos adquiridos em ${dt_movimentacao} que não foram comunicados`);
+    }    
     return produtos;
 }
 
@@ -47,7 +56,8 @@ async function produtosAdquiridos(esportista_id, dt_movimentacao) {
  * Lista de todos os fornecedores de produtos adquiridos
  * 
  * @param integer esportista_id 
- * @param string dt_movimentacao 
+ * @param string dt_movimentacao
+ * @throws Error 
  * @returns []
  */
 async function fornecedoresProdutosAdquiridos(esportista_id, dt_movimentacao) {
@@ -66,6 +76,9 @@ async function fornecedoresProdutosAdquiridos(esportista_id, dt_movimentacao) {
         if(fornecedor && fornecedores.filter(e => e == fornecedor).length == 0) {
             fornecedores.push(fornecedor);
         }
+    }
+    if(fornecedores.length == 0) {
+        throw new ListaVaziaError(`Fornecedor(es) de produto(s) adquirido(s) não encontrado(s)`);
     }
     return fornecedores;
 }
@@ -96,6 +109,8 @@ async function comunicacaoMovimentacoes(esportista_id, dt_movimentacao, comunica
  * 
  * @param integer esportista_id 
  * @param string dt_movimentacao 
+ * @returns []
+ * @throws Error
  */
 async function arquivosProdutosAdquiridos(esportista_id, dt_movimentacao) {
     let arquivos=[]; var movimentacaoDocumento=[]; var documento=null; var arquivo=null;
@@ -114,6 +129,9 @@ async function arquivosProdutosAdquiridos(esportista_id, dt_movimentacao) {
             }
         }        
     }
+    if(arquivos.length == 0) {
+        throw new ObjetoNaoEncontradoError(`Nenhum Documento de aquisição encontrado em ${dt_movimentacao}`);
+    }    
     return arquivos;
 }
 
@@ -121,7 +139,8 @@ async function arquivosProdutosAdquiridos(esportista_id, dt_movimentacao) {
  * Seleciona o primeiro Documento de Identificação do Esportista
  * 
  * @param integer esportista_id 
- * @returns {*} | null 
+ * @returns {*}
+ * @throws Error 
  */
 async function algumaIdentificacao(esportista_id) {
     let identificacao=null;
@@ -132,22 +151,23 @@ async function algumaIdentificacao(esportista_id) {
             return identificacao;
         }
     }
-    return identificacao;
+    throw new ObjetoNaoEncontradoError(`Documento de identificação do desportista inexistente`);
 }
 
 /**
  * Endereço do primeiro Local de Guarda do Esportista
  * 
  * @param integer esportista_id 
- * @returns string | null
+ * @returns string
+ * @throws Error
  */
 async function algumLocalGuarda(esportista_id) {
     const locais = await localDoEsportista.listaPorCampos(esportista_id, tipoLocal.localGuarda.value);
     if(locais.length > 0) {
         return `${locais[0].nome} - ${locais[0].endereco}`;
     } else {
-        return null;
-    }
+        throw new ObjetoNaoEncontradoError(`Endereço de Local de Guarda do desportista inexistente`);
+    }      
 }
 
 class ComunicacaoController extends CRUDController {
@@ -160,45 +180,29 @@ class ComunicacaoController extends CRUDController {
         if(!dt_movimentacao) {
             return res.status(401).json({message : `Data da(s) movimentação(ões) é campo requerido`});
         }
-        if(orgao && orgao.email && orgao.nome) {
-            try {
-                const identificacao = await algumaIdentificacao(esportista.id);
-                if(!identificacao) {
-                    return res.status(409).json({message: `Documento de identificação do desportista inexistente`});
-                }
-                const registro = await Registro.buscaPorCampos(esportista.id, tipoRegistro.cr.value);
-                if(!registro) {
-                    return res.status(409).json({message: `Documento de registro do desportista inexistente`});
-                }
-                esportista.email = req.user.email;
-                esportista.endereco = await algumLocalGuarda(esportista.id);
-                if(!esportista.endereco) {
-                    return res.status(409).json({message: `Endereço de Local de Guarda do desportista inexistente`}); 
-                }                
-                const produtos = await produtosAdquiridos(esportista.id, dt_movimentacao);
-                if(produtos.length == 0 ) {
-                    return res.status(409).json({message: `Não existem produtos adquiridos em ${dt_movimentacao} que não foram comunicados`});
-                }                
-                const arquivos = await arquivosProdutosAdquiridos(esportista.id, dt_movimentacao);
-                if(arquivos.length == 0) {
-                    return res.status(409).json({message: `Nenhum Documento de aquisição encontrado`}); 
-                }
-                const fornecedores = await fornecedoresProdutosAdquiridos(esportista.id, dt_movimentacao);
-                if(fornecedores.length == 0) {
-                    return res.status(409).json({message: `Fornecedor(es) de produto(s) adquirido(s) não encontrado(s)`});
-                }                
-                const email = new EmailComunicacaoAquisicao(esportista, identificacao, registro, fornecedores, produtos, orgao, arquivos);
-                const detalhes = `Mensagem de email enviada para ${email.to}, com seguinte conteúdo: ${email.text}`;
-                const comunicacao = await Comunicacao.criar(esportista.id, {nome: orgao.nome, email: orgao.email, observacao: detalhes});
-                await comunicacaoMovimentacoes(esportista.id, dt_movimentacao, comunicacao.id);
-                email.enviaEmail().finally(()=>{arquivos.forEach(attach=>{Documento.apagaArquivoTemporario(attach.temp);})});
-                return res.status(200).json({message: detalhes}); 
-            } catch (error) {
-                return res.status(500).json({message: error.message}); 
-            } 
-        } else {
+        if(!(orgao && orgao.email && orgao.nome)) {
             return res.status(401).json({message : `E-mail e nome do órgão destino são campos requeridos`}); 
-        }       
+        }
+        try {            
+            const identificacao = await algumaIdentificacao(esportista.id);
+            const registro = await Registro.buscaPorCampos(esportista.id, tipoRegistro.cr.value);
+            if(!registro) {
+                return res.status(404).json({message: `Documento de registro do desportista inexistente`});
+            }
+            esportista.email = req.user.email;
+            esportista.endereco = await algumLocalGuarda(esportista.id);               
+            const produtos = await produtosAdquiridos(esportista.id, dt_movimentacao);                
+            const arquivos = await arquivosProdutosAdquiridos(esportista.id, dt_movimentacao);
+            const fornecedores = await fornecedoresProdutosAdquiridos(esportista.id, dt_movimentacao);                
+            const email = new EmailComunicacaoAquisicao(esportista, identificacao, registro, fornecedores, produtos, orgao, arquivos);
+            const detalhes = `Mensagem de email enviada para ${email.to}, com seguinte conteúdo: ${email.text}`;
+            const comunicacao = await Comunicacao.criar(esportista.id, {nome: orgao.nome, email: orgao.email, observacao: detalhes});
+            await comunicacaoMovimentacoes(esportista.id, dt_movimentacao, comunicacao.id);
+            email.enviaEmail().finally(()=>{arquivos.forEach(attach=>{Documento.apagaArquivoTemporario(attach.temp);})});
+            return res.status(200).json({message: detalhes}); 
+        } catch (error) {
+            return resStatus(error, res); 
+        }    
     }
 
     static async atualiza(req, res) {
@@ -215,7 +219,7 @@ class ComunicacaoController extends CRUDController {
             }
             return res.status(200).json(comunicacao); 
         } catch (error) {
-            return res.status(500).json({message: error.message}); 
+            return resStatus(error, res);
         }        
     }
      
