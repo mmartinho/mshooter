@@ -1,3 +1,10 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe instanciável que manipula os objetos de modelo sequelize passado 
+ *          no método construtor desta   
+ ************************************************************************************/
 const db = require('../../models');
 
 /**

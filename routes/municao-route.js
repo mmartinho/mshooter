@@ -1,3 +1,12 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Rotas de "Municao"
+ *          @see controllers\municao-controller.js
+ *          @see middleware\precheck.js
+ *          @see middleware\auth.js
+ ************************************************************************************/
 const { Router } = require('express');
 const MunicaoController = require('../controllers/municao-controller');
 const AuthStrategies = require('../middleware/estrategias-passport');
@@ -31,7 +40,7 @@ router.delete('/municao/:id',
 
 /** ******************* OUTRAS ROTAS DE MUNICAO **************** */
          
-/** Saldo disponível de Insumo específico */
+/** Saldo disponível de Munição específica */
 router.get('/municao/:id/disponivel', 
     [AuthMiddleware.bearer], 
     MunicaoController.disponivel);

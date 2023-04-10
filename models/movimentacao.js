@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Define o modelo sequelize "Municao" associado a tabela "municao" 
+ ************************************************************************************/
 'use strict';
 const { Model } = require('sequelize');
 const tipoMovimentacao = require('./types/movimentacao-tipo');

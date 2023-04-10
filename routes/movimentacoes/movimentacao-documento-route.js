@@ -1,3 +1,12 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Rotas de Documento de "Movimentacao" 
+ *          @see controllers\movimentacoes\movimentacao-documento-controller.js   
+ *          @see middleware\precheck.js
+ *          @see middleware\auth.js
+ ************************************************************************************/
 const { Router } = require('express');
 
 const MovimentacaoDocumentoController = require('../../controllers/movimentacoes/movimentacao-documento-controller');

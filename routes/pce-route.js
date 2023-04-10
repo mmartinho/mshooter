@@ -1,3 +1,14 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Rotas de "PCE"
+ *          @see controllers\pce-controller.js
+ *          @see controllers\documento-compra-controller.js
+ *          @see controllers\documento-apostilamento-controller.js
+ *          @see middleware\precheck.js
+ *          @see middleware\auth.js
+ ************************************************************************************/
 const { Router } = require('express');
 const PCEController = require('../controllers/pce-controller');
 const DocumentoCompraController = require('../controllers/documento-compra-controller');

@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe controladora "PCE"
+ ************************************************************************************/
 const CRUDController = require('./crud-controller');
 const pceDoEsportista = require('../models/funcoes/pce');
 const tipoPCE = require('../models/types/pce-tipo');

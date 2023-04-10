@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Função de RESPOSTA de requisição com ERROS customizados
+ ************************************************************************************/
 const CampoRequeridoError = require('./campo-requerido');
 const CampoIntalteravelError = require('./campo-inalteravel');
 const ObjetoExistenteError = require('./objeto-existente');

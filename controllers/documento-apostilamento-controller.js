@@ -1,3 +1,10 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe controladora "Documento de Apostilamento".
+ *          Apostilamento é a classe de relacionamento do PCE com seu Documento
+ ************************************************************************************/
 const CRUDController = require('./crud-controller');
 const Documento = require('../models/funcoes/documento');
 const Apostilamento = require('../models/funcoes/apostilamento');

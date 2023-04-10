@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe controladora "Usuario"
+ ************************************************************************************/
 const tokens = require('../middleware/tokens');
 const Usuario = require('../models/funcoes/usuario');
 const EmailVerificacao = require('../models/classes/email-verificacao');

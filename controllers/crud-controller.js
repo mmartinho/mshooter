@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Super classe controladora que define operações comuns a modelos da app
+ ************************************************************************************/
 const db = require('../models');
 const resStatus = require('../shared/errors/res-status');
 

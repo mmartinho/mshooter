@@ -1,3 +1,10 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe controladora de "Comunicacao" a órgão ficalizador sobre 
+ *          aquisição de Munição e/ou Insumo
+ ************************************************************************************/
 const CRUDController = require('./crud-controller');
 const Comunicacao = require('../models/funcoes/comunicacao');
 const EmailComunicacaoAquisicao = require('../models/classes/email-comunicacao-aquisicao');

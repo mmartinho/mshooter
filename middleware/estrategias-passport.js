@@ -1,3 +1,10 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Definição de Objetos de estratégias de autenticação da biblioteca 
+ *          "passport" utilizadas pelos Middlewares
+ ************************************************************************************/
 const passport = require('passport');
 
 const LocalStrategy = require('passport-local').Strategy;

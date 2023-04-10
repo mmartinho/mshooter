@@ -1,3 +1,12 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Rotas de "Insumo"
+ *          @see controllers\insumo-controller.js
+ *          @see middleware\precheck.js
+ *          @see middleware\auth.js
+ ************************************************************************************/
 const { Router } = require('express');
 
 const InsumoController = require('../controllers/insumo-controller');

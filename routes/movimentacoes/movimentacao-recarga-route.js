@@ -1,3 +1,12 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Rotas de "Movimentacao" de recarga de Munição
+ *          @see controllers\movimentacoes\recarga-controller.js   
+ *          @see middleware\precheck.js
+ *          @see middleware\auth.js
+ ************************************************************************************/
 const { Router } = require('express');
 
 const RecargaController = require('../../controllers/movimentacoes/recarga-controller');

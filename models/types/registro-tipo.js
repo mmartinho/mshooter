@@ -1,3 +1,10 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe utilizada para retornar o tipo enumerado "tipoRegistro"
+ *          @see models\types\todos.js
+ ************************************************************************************/
 const Todos = require('./todos');
 
 class TipoRegistro extends Todos {
@@ -10,6 +17,9 @@ class TipoRegistro extends Todos {
     this.outro = {description: 'Outro', value : 6};
   }
 
+  /**
+   * @returns Number[]
+   */
   identificadores() {
     return [this.id.value, this.cpf.value, this.cnh.value];
   }

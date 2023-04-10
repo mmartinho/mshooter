@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe controladora "Insumo"
+ ************************************************************************************/
 const CRUDController = require('./crud-controller');
 const insumoDoEsportista = require('../models/funcoes/insumo');
 const Estoque = require('../models/funcoes/estoque');

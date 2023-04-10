@@ -1,5 +1,14 @@
-const Email = require('./email');
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe que representa uma mensagem de e-mail de verificação de identidade
+ *          de Usuário auto-cadastrado.
+ *          O corpo da mensagem utiliza gabarito PUG
+ *          @see shared\templates
+ ************************************************************************************/
 const pug = require('pug');
+const Email = require('./email');
 const path = __basedir + `/${process.env.TEMPLATES_DIR}/`;
 
 class EmailVerificacao extends Email {

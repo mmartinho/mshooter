@@ -1,3 +1,10 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Define o modelo sequelize "Apostilamento" associado a tabela de 
+ *          relacionamento "apostilamento" 
+ ************************************************************************************/
 'use strict';
 const { Model } = require('sequelize');
 

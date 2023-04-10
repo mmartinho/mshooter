@@ -1,3 +1,12 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Rotas de "Movimentacao" de descarte de Insumo ou Municao
+ *          @see controllers\movimentacoes\descarte-controller.js   
+ *          @see middleware\precheck.js
+ *          @see middleware\auth.js
+ ************************************************************************************/
 const { Router } = require('express');
 
 const DescarteController = require('../../controllers/movimentacoes/descarte-controller');

@@ -1,3 +1,10 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Objetos que manipulam cadeias de caracteres do tipo "token" utilizados
+ *          pelos Middlewares
+ ************************************************************************************/
 const blacklist = require('../models/funcoes/blacklist');
 const whitelist = require('../models/funcoes/whitelist');
 

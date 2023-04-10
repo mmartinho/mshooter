@@ -1,3 +1,10 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe utilizada para retornar o tipo enumerado "tipoInsumo"
+ *          @see models\types\todos.js
+ ************************************************************************************/
 const Todos = require('./todos');
 
 class TipoInsumo extends Todos {

@@ -1,3 +1,10 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe de middleware que instancia as estratégias de autenticação, e
+ *          verificação identidade de usuário
+ ************************************************************************************/
 const passport = require('passport');
 const tokens = require('./tokens');
 const Usuario = require('../models/funcoes/usuario');

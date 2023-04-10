@@ -1,3 +1,10 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe controladora "Local" (de guarda, treino, prova, 
+ *          federação, confederação)
+ ************************************************************************************/
 const CRUDController = require('./crud-controller');
 const localDoEsportista = require('../models/funcoes/local');
 const tipoLocal = require('../models/types/local-tipo');

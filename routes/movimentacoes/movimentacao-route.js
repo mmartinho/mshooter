@@ -1,3 +1,12 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Rotas de "Movimentacao" de Munição e Insumo
+ *          @see controllers\movimentacoes\movimentacao-controller.js   
+ *          @see middleware\precheck.js
+ *          @see middleware\auth.js
+ ************************************************************************************/
 const { Router } = require('express');
 
 const MovimentacaoController = require('../../controllers/movimentacoes/movimentacao-controller');

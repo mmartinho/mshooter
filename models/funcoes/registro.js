@@ -1,3 +1,12 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe de métodos estáticos que manipulam os objetos dos modelos 
+ *          sequelize "Registro"
+ *          Também utiliza métodos estáticos da classe "Documento"
+ *          @see models\funcoes\documento.js
+ ************************************************************************************/
 const db = require('../../models');
 const Documento = require('./documento');
 

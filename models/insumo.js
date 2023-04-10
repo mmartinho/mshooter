@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Define o modelo sequelize "Insumo" associado a tabela "insumo" 
+ ************************************************************************************/
 const tipoInsumo = require('./types/insumo-tipo');
 
 'use strict';

@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe controladora "Recarga" de Munição
+ ************************************************************************************/
 const CRUDController = require('../crud-controller');
 const Recarga = require('../../models/funcoes/recarga');
 

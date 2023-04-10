@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe controladora "Utilizacao" de Munição em Local usando PCE
+ ************************************************************************************/
 const CRUDController = require('../crud-controller');
 const Movimentacao = require('../../models/funcoes/movimentacao');
 

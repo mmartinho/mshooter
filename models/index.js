@@ -1,3 +1,10 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Rastreia o diretório de modelos (models), e cria o array "db" com todos 
+ *          os modelos sequelize definidos lá 
+ ************************************************************************************/
 'use strict';
 
 const fs = require('fs');

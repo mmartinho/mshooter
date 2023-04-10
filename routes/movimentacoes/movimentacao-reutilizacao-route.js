@@ -1,3 +1,12 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Rotas de "Movimentacao" de reutilização de Insumo
+ *          @see controllers\movimentacoes\reutilizacao-controller.js   
+ *          @see middleware\precheck.js
+ *          @see middleware\auth.js
+ ************************************************************************************/
 const { Router } = require('express');
 
 const ReutilizacaoController = require('../../controllers/movimentacoes/reutilizacao-controller');

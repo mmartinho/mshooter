@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe controladora "Municao"
+ ************************************************************************************/
 const CRUDController = require('./crud-controller');
 const municaoDoEsportista = require('../models/funcoes/municao');
 const Estoque = require('../models/funcoes/estoque');

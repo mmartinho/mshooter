@@ -1,3 +1,13 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Rotas de "Esportista"
+ *          @see controllers\esportista-controller.js
+ *          @see controllers\documento-registro-controller.js    
+ *          @see middleware\precheck.js
+ *          @see middleware\auth.js
+ ************************************************************************************/
 const { Router } = require('express');
 const EsportistaController = require('../controllers/esportista-controller');
 const DocumentoRegistroController = require('../controllers/documento-registro-controller');

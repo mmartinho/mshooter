@@ -1,3 +1,12 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Rotas de "Comunicacao"
+ *          @see controllers\comunicacao-controller.js   
+ *          @see middleware\precheck.js
+ *          @see middleware\auth.js
+ ************************************************************************************/
 const { Router } = require('express');
 const ComunicacaoController = require('../controllers/comunicacao-controller');
 const AuthStrategies = require('../middleware/estrategias-passport');

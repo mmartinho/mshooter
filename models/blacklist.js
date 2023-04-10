@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Define o modelo sequelize "Blacklist" associado a tabela "blacklist" 
+ ************************************************************************************/
 'use strict';
 const { Model } = require('sequelize');
 

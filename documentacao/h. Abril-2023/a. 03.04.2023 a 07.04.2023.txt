@@ -1,0 +1,16 @@
+*********************************************
+ANOTAÇÔES DE PROJETO
+Projeto: mShooter / Backend App
+Autor: Marcus Martinho
+Data: Ago/2022
+Arquivo: Anotações de 03/04/2023 a 07/04/2023
+*********************************************
+
+1. Nas atividades anteriores, refatoramos os tipos enumerados 
+
+2. Nas atividades anteriores, criamos novas rotas para listar tipos enumerados
+
+3. Criamos uma nova rota para registrar errors do Frontend
+
+4. Inserimos a documentação de comentários aos fontes da App Backend
+

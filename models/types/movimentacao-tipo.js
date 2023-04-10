@@ -1,3 +1,10 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe utilizada para retornar o tipo enumerado "tipoMovimentacao"
+ *          @see models\types\todos.js
+ ************************************************************************************/
 const Todos = require('./todos');
 
 class TipoMovimentacao extends Todos {
@@ -36,6 +43,10 @@ class TipoMovimentacao extends Todos {
     this.reutilizacao = {description: 'Reutilização', value : 7, direction: 'entrada'};    
   }
 
+  /**
+   * @param Number value 
+   * @returns string
+   */
   toDirection(value) {
     for(var key in this) {
       if(key === value) {
@@ -45,6 +56,9 @@ class TipoMovimentacao extends Todos {
     return '';  
   }
 
+  /**
+   * @returns Object[]
+   */
   all() {
     var keys = [];
     for(var key in this) {
@@ -59,6 +73,9 @@ class TipoMovimentacao extends Todos {
     return keys;
   } 
   
+  /**
+   * @returns Object[]
+   */
   lista() {
     var keys = [];
     this.all().forEach((key) => {
@@ -70,6 +87,10 @@ class TipoMovimentacao extends Todos {
     return keys;
   }
 
+  /**
+   * @param Number[] except 
+   * @returns Number[]
+   */
   entradas (except=[]) {
     var values = [];
     var entrada = 0;
@@ -84,6 +105,10 @@ class TipoMovimentacao extends Todos {
     return values;
   }
 
+  /**
+   * @param Number[] except 
+   * @returns Number[]
+   */
   saidas (except=[]) {
     var values = [];
     var saida = 0;

@@ -1,3 +1,12 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Rotas de "Movimentacao" de desmontagem de Municao
+ *          @see controllers\movimentacoes\desmontagem-controller.js   
+ *          @see middleware\precheck.js
+ *          @see middleware\auth.js
+ ************************************************************************************/
 const { Router } = require('express');
 
 const DesmontagemController = require('../../controllers/movimentacoes/desmontagem-controller');

@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Define o modelo sequelize "Comunicacao" associado a tabela "comunicacao" 
+ ************************************************************************************/
 'use strict';
 const { Model } = require('sequelize');
 
@@ -21,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Comunicacao',
-    tableName: 'Comunicacao'
+    tableName: 'comunicacao'
   });
   return Comunicacao;
 };

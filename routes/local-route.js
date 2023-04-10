@@ -1,3 +1,12 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Rotas de "Local"
+ *          @see controllers\local-controller.js
+ *          @see middleware\precheck.js
+ *          @see middleware\auth.js
+ ************************************************************************************/
 const { Router } = require('express');
 const LocalController = require('../controllers/local-controller');
 
@@ -30,7 +39,7 @@ router.delete('/local/:id',
     [AuthMiddleware.bearer,PrecheckMiddleware.verificacaoBody], 
     LocalController.exclui);
 
-/** ******************* OUTRAS ROTAS DE LOCAL **************** */ 
+/** ******** OUTRAS ROTAS DE LOCAL ********* */ 
 
 /** Tipos enumerados de local */
 router.get('/local/tipos/tipo', 

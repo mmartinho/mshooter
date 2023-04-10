@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Define o modelo sequelize "Local" associado a tabela "local" 
+ ************************************************************************************/
 'use strict';
 const {Model} = require('sequelize');
 const tipoLocal = require('./types/local-tipo');

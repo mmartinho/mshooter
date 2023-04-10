@@ -1,3 +1,12 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe de métodos estáticos que manipulam os objetos do modelo sequelize 
+ *          "Compra" e Pce associado a Esportista.
+ *          Utiliza a instância "Pce do Esportista" 
+ *          @see models\funcoes\pce.js
+ ************************************************************************************/
 const db = require('../../models');
 const pceDoEsportista = require('./pce');
 const PceNotFoundError = require('../../shared/errors/pce-not-found');

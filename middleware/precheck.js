@@ -1,6 +1,16 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Middleware de verificação de requisição e resposta
+ ************************************************************************************/
 const InvalidArgumentError = require('../shared/errors/invalid-argument');
 
 class PrecheckMiddleware {
+    /** 
+     * Verifica se propriedades não permitidas estão sendo inseridas no 
+     * corpo da requisição 
+     */    
     static async verificacaoBody(req, res, next) {
         try {
             const { body }  = req;

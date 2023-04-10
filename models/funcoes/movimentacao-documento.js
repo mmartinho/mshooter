@@ -1,3 +1,12 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe de métodos estáticos que manipulam os objetos do modelo 
+ *          sequelize "MovimentacaoDocumento" 
+ *          Também utiliza métodos estáticos da classe "Movimentacao" 
+ *          @see models\funcoes\movimentacao.js 
+ ************************************************************************************/
 const db = require('../../models');
 const Movimentacao = require('./movimentacao');
 const MovimentacaoNotFoundError = require('../../shared/errors/movimentacao-not-found');

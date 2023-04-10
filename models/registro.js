@@ -1,3 +1,10 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Define o modelo sequelize "Registro" associado a tabela de 
+ *          relacionamento "registro" 
+ ************************************************************************************/
 'use strict';
 const { Model } = require('sequelize');
 const tipoRegistro = require('./types/registro-tipo');

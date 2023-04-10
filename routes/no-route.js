@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Rota não encontrada 
+ ************************************************************************************/
 const { Router } = require('express');
 
 const router = Router();
@@ -8,8 +14,5 @@ function error404Message(req, res) {
 }
 
 router.all('*', error404Message);
-//router.post('*', error404Message);
-//router.put('*', error404Message);
-//router.delete('*', error404Message);
 
 module.exports = router;

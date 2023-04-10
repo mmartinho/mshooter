@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Objeto contendo configurações de ambientes para conexão com o BD
+ ************************************************************************************/
 require('dotenv').config();
 
 module.exports = {

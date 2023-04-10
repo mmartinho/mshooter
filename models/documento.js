@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Define o modelo sequelize "Documento" associado a tabela "documento" 
+ ************************************************************************************/
 'use strict';
 const { Model } = require('sequelize');
 

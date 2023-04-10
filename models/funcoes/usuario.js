@@ -1,3 +1,10 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe de métodos estáticos que manipulam os objetos do modelo sequelize
+ *          "Usuario"
+ ************************************************************************************/
 const bcrypt = require('bcryptjs');
 const db = require('../../models');
 const Auxiliar = require('../../shared/functions/auxiliar');

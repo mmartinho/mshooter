@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Define o modelo sequelize "Pce" associado a tabela "pce" 
+ ************************************************************************************/
 'use strict';
 const { Model } = require('sequelize');
 const tipoPCE = require('./types/pce-tipo');

@@ -1,3 +1,12 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Rotas de "Usuario"
+ *          @see controllers\usuario-controller.js
+ *          @see middleware\precheck.js
+ *          @see middleware\auth.js
+ ************************************************************************************/
 const { Router } = require('express');
 const UsuarioController = require('../controllers/usuario-controller');
 const AuthStrategies = require('../middleware/estrategias-passport');

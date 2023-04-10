@@ -1,3 +1,11 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Exporta a instância da classe de métodos estáticos que manipulam os 
+ *          objetos do modelo sequelize "Local" associado a um Esportista
+ *          @see models\funcoes\do-esportista.js
+ ************************************************************************************/
 const db = require('../../models');
 const DoEsportista = require('./do-esportista');
 

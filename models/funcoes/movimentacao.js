@@ -1,3 +1,10 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe de métodos estáticos que manipulam os objetos do modelo 
+ *          sequelize "Movimentacao" 
+ ************************************************************************************/
 const db = require('../../models');
 const { Op } = require('sequelize');
 

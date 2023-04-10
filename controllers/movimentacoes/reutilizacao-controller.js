@@ -1,3 +1,9 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe controladora "Reutilizacao" de Insumo
+ ************************************************************************************/
 const CRUDController = require('../crud-controller');
 const Movimentacao = require('../../models/funcoes/movimentacao');
 

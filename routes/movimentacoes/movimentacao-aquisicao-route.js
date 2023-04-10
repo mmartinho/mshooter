@@ -1,3 +1,12 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Rotas de "Movimentacao" de aquisicao de Insumo ou Municao
+ *          @see controllers\movimentacoes\aquisicao-controller.js   
+ *          @see middleware\precheck.js
+ *          @see middleware\auth.js
+ ************************************************************************************/
 const { Router } = require('express');
 
 const AquisicaoController = require('../../controllers/movimentacoes/aquisicao-controller');

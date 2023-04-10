@@ -1,21 +1,37 @@
-const unidadeMedida = Object.freeze({
-  grains: {description: 'grains', value: 2},
-  gramas : {description: 'gramas', value: 3},
-  unidade : {description: 'unidades', value : 4},
-  toDescription : (value) => {
-    switch (value) {
-      case unidadeMedida.grains.value : return unidadeMedida.grains.description;
-      case unidadeMedida.gramas.value : return unidadeMedida.gramas.description;
-      case unidadeMedida.unidade.value : return unidadeMedida.unidade.description;
-      default: return '';
-    }    
-  },
-  grainsToGrams : (value) => {
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe utilizada para retornar o tipo enumerado "unidadeMedida"
+ *          @see models\types\todos.js
+ ************************************************************************************/
+const Todos = require('./todos');
+
+class UnidadeMedida extends Todos {
+  constructor() {
+    super();
+    this.grains = {description: 'grains', value: 2};
+    this.gramas = {description: 'gramas', value: 3};
+    this.unidade = {description: 'unidades', value : 4};
+  }
+
+  /**
+   * @param Number value 
+   * @returns Number
+   */
+  grainsToGrams (value) {
     return Number(value)*0.0647989;
-  },
-  gramsToGrains : (value) => {
+  }
+
+  /**
+   * @param Number value 
+   * @returns Number
+   */
+  gramsToGrains (value) {
     return Number(value)*15.4324;
   }
-}); 
+}
+
+const unidadeMedida = Object.freeze(new UnidadeMedida());
 
 module.exports = unidadeMedida;

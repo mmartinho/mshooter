@@ -1,3 +1,10 @@
+/************************************************************************************
+ * Projeto: mShooter / Backend App
+ * Autore(s): Marcus Martinho
+ * Data: Ago/2022
+ * Arquivo: Classe de métodos estáticos que calculam as quantidades em estoque
+ *          de insumo ou munição
+ ************************************************************************************/
 const { Op, fn, col } = require('sequelize');
 const db = require('../../models');
 const tipoMovimentacao = require('../types/movimentacao-tipo');
