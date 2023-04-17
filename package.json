@@ -1,7 +1,7 @@
 {
   "name": "mshooter",
   "version": "1.0.0",
-  "description": "Serviço de gestão de acervo de armas, munições, recarga, e resultados de treinos e competições de atiradores esportivos.",
+  "description": "Backend de serviço de gestão de acervo de armas, munições, recarga, e resultados de treinos e competições de atiradores esportivos.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

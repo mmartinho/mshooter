@@ -14,7 +14,7 @@ class Todos {
      */
     toDescription(value) {
         for(var key in this) {
-          if(key === value) {
+          if(this[key].value === value) {
             return this[key].description;
           }
         }
@@ -27,7 +27,7 @@ class Todos {
      */
     toValue(description) {
         for(var key in this) {
-          if(key === description) {
+          if(this[key].description === description) {
             return this[key].value;
           }
         }
