@@ -6,6 +6,7 @@
  *          no método construtor desta   
  ************************************************************************************/
 const db = require('../../models');
+const {Op, DataTypes} = require('sequelize');
 
 /**
  * Manipula o modelo que possui escopo de Esportista
@@ -16,17 +17,54 @@ class DoEsportista {
     }
 
     /**
+     * Build a Sequelize where criteria to verify if "str"
+     * is inside any model STRING or TEXT fields 
+     * 
+     * @param string str 
+     * @param string model 
+     * @returns {*} | null
+     */
+    fullTextSearchCriteria(str) {
+        var criterios = [];
+        if(str) {
+            const atributos = this.atributos();
+            Object.keys(atributos).forEach((atributo)=>{
+                if(atributos[atributo].type instanceof DataTypes.STRING) {
+                    criterios.push(
+                        {[atributo]: {[Op.like]: `%${str}%`}}
+                    )
+                }
+            }); 
+            return criterios.length > 1 ? {[Op.or]:criterios} : (criterios.length == 1 ? criterios[0] : null);
+        }
+        return null;
+    }  
+
+    /**
+     * @returns object
+     */
+    atributos() {
+        return db[this.modelo].getAttributes();
+    }
+
+    /**
      * @param integer esportista_id
      * @param integer limit (default null)
      * @param integer offset (default null)
      * @returns {*}
      */
-    async lista(esportista_id, limit=null, offset=null) {
+    async lista(esportista_id, limit=null, offset=null, str=null) {
         var all = [];
         var total = 0;
         var criteria = { 
             where: {esportista_id: Number(esportista_id)} 
         }     
+        if(str) {
+            criteria.where = {
+                ...criteria.where, 
+                ...this.fullTextSearchCriteria(str)
+            }; 
+        }
         if(limit === null || offset === null) {
             all = await db[this.modelo].findAll(criteria);
             return all;

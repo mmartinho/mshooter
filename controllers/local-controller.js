@@ -12,10 +12,11 @@ const tipoLocal = require('../models/types/local-tipo');
 class LocalController extends CRUDController{
     static async listAll(req, res) {
         const { limit, offset } = req.params;
+        const { q } = req.query;
         const esportista = req.esportista; // vem do middleware
         if(esportista) {
             try {
-                const lista = await localDoEsportista.lista(esportista.id, limit, offset);
+                const lista = await localDoEsportista.lista(esportista.id, limit, offset, q);
                 return res.status(200).json(lista);
             } catch (error) {
                 return res.status(500).json({ message: error.message }); 

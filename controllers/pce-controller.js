@@ -7,14 +7,17 @@
 const CRUDController = require('./crud-controller');
 const pceDoEsportista = require('../models/funcoes/pce');
 const tipoPCE = require('../models/types/pce-tipo');
+const { Op, DataTypes } = require('sequelize');
 
 class PCEController extends CRUDController{
+
     static async listAll(req, res) {
         const esportista = req.esportista; // vem do middleware
         const { offset, limit } = req.params;
+        const { q } = req.query;
         if(esportista) {
             try {
-                const lista = await pceDoEsportista.lista(esportista.id, limit, offset);
+                const lista = await pceDoEsportista.lista(esportista.id, limit, offset, q);
                 return res.status(200).json(lista);
             } catch (error) {
                 return res.status(500).json({ message: error.message }); 

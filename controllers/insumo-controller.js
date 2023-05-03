@@ -15,9 +15,10 @@ class InsumoController extends CRUDController {
     static async listAll(req, res) {
         const esportista = req.esportista; // vem do middleware
         const { limit, offset } = req.params;
+        const { q } = req.query;
         if(esportista) {
             try {
-                const lista = await insumoDoEsportista.lista(esportista.id, limit, offset);
+                const lista = await insumoDoEsportista.lista(esportista.id, limit, offset, q);
                 return res.status(200).json(lista);
             } catch (error) {
                 return resStatus(error, res);

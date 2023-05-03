@@ -5,6 +5,7 @@
  * Arquivo: Super classe controladora que define operações comuns a modelos da app
  ************************************************************************************/
 const db = require('../models');
+const {Op, DataTypes} = require('sequelize');
 const resStatus = require('../shared/errors/res-status');
 
 /**
@@ -54,20 +55,20 @@ class CRUDController {
      * @returns Model[] | string
      */
     static async listAll(req, res) {
-        const params = req.params;
+        const { offset, limit } = req.params;
         const model = CRUDController.modelFromUrl(req.url);
         var all = [];
         var total = 0;
         try {
-            if('offset' in params && 'limit' in params && params['limit'] && params['offset']) {
-                await db[model].findAndCountAll({limit: Number(params.limit), offset: Number(params.offset)}).then((result)=> {
+            if(limit === null || offset === null) {
+                all = await db[model].findAll();
+                return res.status(200).json(all);
+            } else {
+                await db[model].findAndCountAll({limit: Number(limit), offset: Number(offset)}).then((result)=> {
                     all = result.rows;
                     total = result.count;
                 });
-                return res.status(200).json({ model, total, rows : all});
-            } else {
-                all = await db[model].findAll();
-                return res.status(200).json(all);
+                return res.status(200).json({model, total, rows : all});                
             }
         } catch (error) {
             return resStatus(error, res);
